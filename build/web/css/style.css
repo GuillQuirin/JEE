@@ -1,0 +1,70 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 10 juil. 2017, 15:29:09
+    Author     : guillaumequirin
+*/
+
+body{
+    background-color: #009cc4;
+}
+
+header #logo{
+    width: 30%;
+    height: 100px;
+    vertical-align: top;
+}
+
+header #publi{
+    width: 69%;
+    height: 100px;
+    border: 1px solid black;
+    display: inline-block;
+}
+
+header button, header input{
+    height: 75px;
+    background-color: transparent;
+    color: white;
+    font-size: 20px;
+    margin: 10px 5px;
+}
+
+button, input[type="submit"]{
+    cursor: pointer;
+}
+
+input{
+    background-color: white;
+    color: black;
+}
+
+.erreur{
+    color: red;
+}
+
+div#createURL{
+    color: white;
+}
+
+div#createURL .paramsURL{
+	margin-top: 10px;
+	background-color: #1c839a;
+}
+
+div#createURL .paramsURL p{
+    display: inline-block;
+}
+
+#advanced{
+    
+}
+
+footer{
+    width: 50%;
+    margin: 0 auto;
+    text-align: center;
+}
