@@ -3,9 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/guillaumequirin/NetBeansProjects/JEE/src/java/loginServlet.java</file>
-            <file>file:/Users/guillaumequirin/NetBeansProjects/JEE/src/java/Bdd.java</file>
-            <file>file:/Users/guillaumequirin/NetBeansProjects/JEE/src/java/IndexServlet.java</file>
+            <file>file:/Users/guillaumequirin/NetBeansProjects/ProjetJee/web/index.jsp</file>
+            <file>file:/Users/guillaumequirin/NetBeansProjects/ProjetJee/src/java/IndexServlet.java</file>
+            <file>file:/Users/guillaumequirin/NetBeansProjects/ProjetJee/src/java/User.java</file>
+            <file>file:/Users/guillaumequirin/NetBeansProjects/ProjetJee/web/creation.jsp</file>
+            <file>file:/Users/guillaumequirin/NetBeansProjects/ProjetJee/src/java/Url.java</file>
+            <file>file:/Users/guillaumequirin/NetBeansProjects/ProjetJee/src/java/loginServlet.java</file>
+            <file>file:/Users/guillaumequirin/NetBeansProjects/ProjetJee/src/java/registerServlet.java</file>
+            <file>file:/Users/guillaumequirin/NetBeansProjects/ProjetJee/src/java/Bdd.java</file>
         </group>
     </open-files>
 </project-private>

@@ -1,9 +1,6 @@
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -11,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -19,17 +17,10 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name="registerServlet", urlPatterns="/register")
 public class registerServlet extends HttpServlet {
     
-//  public static final String VUE = "index.jsp";
-    public static final String CHAMP_PSEUDO  = "url";
-    public static final String CHAMP_PASS   = "pwd";
-
-    public static final String ATT_ERREURS  = "erreurs";
-    public static final String ATT_RESULTAT = "resultat";
-    public static final String ATT_URL = "url";
-
-    private String resultat;
-    private Map<String, String> erreurs = new HashMap<String, String>();
-    
+    public static final String CHAMP_PSEUDO  = "reg_login_user";
+    public static final String CHAMP_EMAIL  = "reg_email_user";
+    public static final String CHAMP_PASS   = "reg_pwd_user";
+   
     /** 
      * Handles the HTTP <code>POST</code> method.
      * @param request servlet request
@@ -42,25 +33,29 @@ public class registerServlet extends HttpServlet {
     throws ServletException, IOException {
  
         //Données
-        String login = getValeurChamp(request, CHAMP_PSEUDO);
-        String pwd = getValeurChamp(request, CHAMP_PASS);
+        User user = new User();
+            user.setPseudo(request.getParameter(CHAMP_PSEUDO));    
+            user.setEmail(request.getParameter(CHAMP_EMAIL));
+            user.setPwd(request.getParameter(CHAMP_PASS));
         
-        if(login != null && !login.isEmpty() && pwd != null && !pwd.isEmpty()){
+        if(user.getEmail() != null && user.getPwd() != null){
             Bdd bdd = new Bdd();
             //Requete SQL
-            String search = "SELECT * FROM user WHERE pseudo = '"+login+"' AND pwd = '"+pwd+"'";
+            String query = "SELECT * FROM user WHERE email = '"+user.getEmail()+"' OR pseudo = '"+user.getPseudo()+"'";
             try {
-                ResultSet resultat = bdd.get(search);
-                while (resultat.next()) {
+                ResultSet resultat = bdd.get(query);
+                if(!resultat.isBeforeFirst()){
+                    query = "INSERT INTO user (email, pwd, pseudo) "
+                                    + "VALUES ('"+user.getEmail()+"','"+user.getPwd()+"','"+user.getPseudo()+"')";
+                    bdd.edit(query);
+                    
                     //Initialisation Session
-//                    request.setAttribute(ATT_ERREURS, erreurs);
-//                    request.setAttribute(ATT_RESULTAT, resultat);
-                    /*int i = rs.getInt("a");
-                    String s = rs.getString("b");
-                    float f = rs.getFloat("c");
-                    System.out.println("ROW = " + i + " " + s + " " + f);*/
+                    HttpSession session = request.getSession(true);
+                    session.setAttribute("user", user);
+                    response.sendRedirect(request.getContextPath() + "/presentation.jsp");
                 }
-                //Redirection Index
+                else
+                    System.out.println("EMAIL OU PSEUDO DEJA EXISTANT");
             } 
             catch (SQLException ex) {
                 Logger.getLogger(loginServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -69,8 +64,9 @@ public class registerServlet extends HttpServlet {
  
     }
     
-    private static String getValeurChamp( HttpServletRequest request, String nomChamp ) {
-        String valeur = request.getParameter( nomChamp );
-        return (valeur == null || valeur.trim().length() == 0) ? null : valeur.trim();
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException{        
+     //   response.sendRedirect(request.getContextPath() + "/index.jsp");
     }
 }

@@ -22,16 +22,27 @@ public class Url {
     public String getUrl_final(){return this.url_final;}    
     public String getPwd(){return this.pwd;}
 
+    /**
+     *
+     * @param url_origin
+     */
     public void setUrl_origin( String url_origin ) {
-        this.url_origin = (url_origin != null) ? "'"+url_origin.trim()+"'" : null;
+        this.url_origin = (url_origin != null) ? url_origin.trim() : null;
         System.out.println("URL_ORIGIN : "+this.url_origin);
     }
 
+    /**
+     *
+     * @param pwd
+     */
     public void setPwd( String pwd ) {
-        this.pwd = (pwd != null) ? "'"+pwd+"'" : null;
+        this.pwd = (pwd != null) ? pwd : null;
         System.out.println("URL_PWD : "+this.pwd);
     }
 
+    /**
+     *
+     */
     public void setUrl_final() {
         //Générateur d'url aléatoire
         String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";

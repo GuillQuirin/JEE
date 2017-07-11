@@ -1,7 +1,5 @@
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -63,7 +61,7 @@ public class IndexServlet extends HttpServlet {
         
         if(url.getUrl_origin() != null){
             String strInsert = "INSERT INTO url (url_origin, pwd, url_final) "
-                                    + "VALUES ("+url.getUrl_origin()+","+url.getPwd()+","+url.getUrl_final()+");";
+                                    + "VALUES ('"+url.getUrl_origin()+"','"+url.getPwd()+"','"+url.getUrl_final()+"');";
             Bdd bdd = new Bdd();
             bdd.edit(strInsert);
             request.setAttribute("link",url);

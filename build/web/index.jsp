@@ -11,8 +11,7 @@
             <div class="paramsURL col-md-8 col-md-offset-2">
                 <div class="row">
                     <p class="col-md-2">URL à raccourcir</p>
-                    <input class="col-md-6 col-md-offset-1" type="text" name="url" value="<crt:out value="${param.url}"/>"> 
-                    <span class="erreur">${erreurs['url']}</span>
+                    <input class="col-md-6 col-md-offset-1" type="text" name="url" value="<crt:out value="${param.url}"/>" required> 
                     <input class="col-md-2 col-md-offset-1" type="submit" value="Raccourcir">
                 </div>
                 <div class="row">

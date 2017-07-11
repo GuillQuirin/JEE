@@ -37,7 +37,7 @@ public class User {
     }
     
     public void setEmail( String email ){
-        this.email = email;
+        this.email = (email.isEmpty()) ? null : email;
     }
     
     public void setStatus( Integer status ){

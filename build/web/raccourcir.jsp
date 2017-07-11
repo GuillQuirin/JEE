@@ -48,8 +48,6 @@
             </div>
         </form>
     </div>
-    <p>Session : <%= session.getAttribute("sessionUtilisateur") %></p>
-    <p>Lien: <%= request.getAttribute("lien") %></p>
 </div>
 
 <%@include file="footer.jsp" %>

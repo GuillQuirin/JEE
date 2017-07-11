@@ -1,9 +1,6 @@
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -41,14 +38,17 @@ public class loginServlet extends HttpServlet {
         if(user.getPseudo() != null && user.getPwd() != null){
             Bdd bdd = new Bdd();
             //Requete SQL
-            String search = "SELECT * FROM user WHERE pseudo = '"+user.getPseudo()+"' AND pwd = '"+user.getPwd()+"'";
+            String query = "SELECT * FROM user WHERE pseudo = '"+user.getPseudo()+"' AND pwd = '"+user.getPwd()+"'";
             try {
-                ResultSet resultat = bdd.get(search);
-                System.out.println(resultat);
+                ResultSet resultat = bdd.get(query);
                 while (resultat.next()) {
                     //Initialisation Session
                     HttpSession session = request.getSession(true);
-                    session.setAttribute("user", resultat);
+                    
+                    //user.setEmail(resultat.getString("email"));
+                    
+                    session.setAttribute("user", user);
+                    System.out.println(resultat.getString("pseudo"));
                 }
             } 
             catch (SQLException ex) {
