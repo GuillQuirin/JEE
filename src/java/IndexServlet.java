@@ -22,13 +22,6 @@ public class IndexServlet extends HttpServlet {
     public static final String CHAMP_IS_PASS   = "pwd_url_cb";
     public static final String CHAMP_PASS   = "pwd";
 
-    public static final String ATT_ERREURS  = "erreurs";
-    public static final String ATT_RESULTAT = "resultat";
-    public static final String ATT_URL = "url";
-
-    private String resultat;
-    private Map<String, String> erreurs = new HashMap<String, String>();
-
 
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -64,13 +57,9 @@ public class IndexServlet extends HttpServlet {
             throws ServletException, IOException {
         
         //Données
-        String url_origin = getValeurChamp(request, CHAMP_URL);
-        String pwd = getValeurChamp(request, CHAMP_PASS);
-
-        Url url = new Url();
-            url.setUrl_origin(url_origin);
-            url.setPwd(pwd);
-        String url_final = url.getUrl_final();
+         Url url = new Url();
+            url.setUrl_origin(request.getParameter(CHAMP_URL));
+            url.setPwd(request.getParameter(CHAMP_PASS));
         
         if(url.getUrl_origin() != null){
             String strInsert = "INSERT INTO url (url_origin, pwd, url_final) "
@@ -82,21 +71,7 @@ public class IndexServlet extends HttpServlet {
         else{
              System.out.println("/!\\ URL_ORIGIN vide");
         }
-        
-        
+               
         this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
-    }
-
-    public String getResultat(){
-    	return resultat;
-    }
-
-    public Map<String, String> getErreurs(){
-    	return erreurs;
-    }
-    
-    private static String getValeurChamp( HttpServletRequest request, String nomChamp ) {
-        String valeur = request.getParameter( nomChamp );
-        return (valeur == null || valeur.trim().length() == 0) ? null : valeur.trim();
-    }   
+    } 
 }

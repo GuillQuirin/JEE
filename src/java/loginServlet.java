@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author guillaumequirin
  */
-@WebServlet(name="loginServlet", urlPatterns="/login")
+@WebServlet(name="loginServlet", urlPatterns= {"/login", "/logout"})
 public class loginServlet extends HttpServlet {
     
     public static final String CHAMP_PSEUDO  = "auth_login_user";
@@ -33,15 +33,15 @@ public class loginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
- 
-        //Données
-        String login = getValeurChamp(request, CHAMP_PSEUDO);
-        String pwd = getValeurChamp(request, CHAMP_PASS);
+        /* LOGIN */
+        User user = new User();
+            user.setPseudo(request.getParameter(CHAMP_PSEUDO));
+            user.setPwd(request.getParameter(CHAMP_PASS));
         
-        if(login != null && !login.isEmpty() && pwd != null && !pwd.isEmpty()){
+        if(user.getPseudo() != null && user.getPwd() != null){
             Bdd bdd = new Bdd();
             //Requete SQL
-            String search = "SELECT * FROM user WHERE pseudo = '"+login+"' AND pwd = '"+pwd+"'";
+            String search = "SELECT * FROM user WHERE pseudo = '"+user.getPseudo()+"' AND pwd = '"+user.getPwd()+"'";
             try {
                 ResultSet resultat = bdd.get(search);
                 System.out.println(resultat);
@@ -57,13 +57,17 @@ public class loginServlet extends HttpServlet {
         }
 
         //Redirection Index
-        response.sendRedirect(request.getContextPath() + "/index");
+        response.sendRedirect(request.getContextPath() + "/index.jsp");
     }
     
-    private static String getValeurChamp( HttpServletRequest request, String nomChamp ) {
-        String valeur = request.getParameter( nomChamp );
-        return (valeur == null || valeur.trim().length() == 0) ? null : valeur.trim();
-    }
-    
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException{
+        /* LOGOUT */
+        HttpSession session = request.getSession(false);
+        if(session != null)
+            session.invalidate();
+        
+        response.sendRedirect(request.getContextPath() + "/index.jsp");
+    }   
 }
-

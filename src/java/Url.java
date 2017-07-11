@@ -1,12 +1,6 @@
 
 import java.security.SecureRandom;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  *
  * @author guillaumequirin
@@ -24,18 +18,10 @@ public class Url {
         this.setUrl_final();
     }  
     
-    public String getUrl_origin(){
-        return this.url_origin;
-    }
-    
-    public String getUrl_final(){
-        return this.url_final;
-    }
-    
-    public String getPwd(){
-        return this.pwd;
-    }
-    
+    public String getUrl_origin(){return this.url_origin;}    
+    public String getUrl_final(){return this.url_final;}    
+    public String getPwd(){return this.pwd;}
+
     public void setUrl_origin( String url_origin ) {
         this.url_origin = (url_origin != null) ? "'"+url_origin.trim()+"'" : null;
         System.out.println("URL_ORIGIN : "+this.url_origin);
