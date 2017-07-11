@@ -23,7 +23,7 @@ public class Url {
     }  
     
     public String getUrl_origin(){return this.url_origin;}    
-    public String getUrl_final(){return this.url_final;}    
+    public String getUrl_final(){return "http://localhost:8080/ProjetJee/redirect?url="+this.url_final;}    
     public String getCaptcha(){return this.captcha;}
     public String getPwd(){return this.pwd;}
     public String getStart(){return this.date_start;}
@@ -108,6 +108,6 @@ public class Url {
         StringBuilder sb = new StringBuilder( 5 );
         for(int i = 0; i < 5; i++ ) 
             sb.append(AB.charAt(rnd.nextInt(AB.length())));
-        this.url_final = "http://localhost:8080/ProjetJee/redirect?url="+sb.toString();
+        this.url_final = sb.toString();
     }
 }
