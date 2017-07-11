@@ -32,14 +32,7 @@ public class IndexServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        PrintWriter out = response.getWriter();
-        try{
-            response.sendRedirect(VUE);            
-            //this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
-        }
-        catch (Exception e) {
-            out.println(e);
-        }
+        response.sendRedirect(request.getContextPath() + "/index.jsp");
     }
 
     /**

@@ -23,7 +23,7 @@
             <crt:otherwise>
                 <a href="<c:url value='/presentation.jsp'/>" class="col-md-2"><button>Présentation</button></a>
                 <a href="<c:url value='/raccourcir.jsp'/>" class="col-md-2"><button>Raccourcir</button></a>
-                <a href="<c:url value='/my_account'/>" class="col-md-2"><button>Mon compte</button></a>
+                <a href="<c:url value='/account.jsp'/>" class="col-md-2"><button>Mon compte</button></a>
                 <a href="<c:url value='/logout'/>" class="col-md-2"><button>Déconnexion</button></a>
             </crt:otherwise>
         </crt:choose>
