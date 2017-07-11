@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.reflect.Field;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,7 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name="IndexServlet", urlPatterns="/index")
 public class IndexServlet extends HttpServlet {
     
-    public static final String VUE = "/index.jsp";
     public static final String CHAMP_URL  = "url";
     public static final String CHAMP_IS_PASS   = "pwd_url_cb";
     public static final String CHAMP_PASS   = "pwd";
@@ -50,19 +50,26 @@ public class IndexServlet extends HttpServlet {
         //Données
          Url url = new Url();
             url.setUrl_origin(request.getParameter(CHAMP_URL));
+            url.setUrl_final();
             url.setPwd(request.getParameter(CHAMP_PASS));
         
         if(url.getUrl_origin() != null){
-            String strInsert = "INSERT INTO url (url_origin, pwd, url_final) "
-                                    + "VALUES ('"+url.getUrl_origin()+"','"+url.getPwd()+"','"+url.getUrl_final()+"');";
             Bdd bdd = new Bdd();
+            String strInsert = "INSERT INTO url (url_origin) VALUES ('"+url.getUrl_origin()+"');";
             bdd.edit(strInsert);
+            
+            String update = "UPDATE url SET url_final = '"+url.getUrl_final()+"'";
+                if(url.getPwd() != null)
+                    update+=" ,pwd='"+url.getPwd()+"'";
+            update+=" WHERE url_origin='"+url.getUrl_origin()+"'";
+            bdd.edit(update);
+            
             request.setAttribute("link",url);
         }
         else{
-             System.out.println("/!\\ URL_ORIGIN vide");
+            //request.setAttribute("erreur_url_origin","");
         }
                
-        this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
+        this.getServletContext().getRequestDispatcher( "/index.jsp" ).forward( request, response );
     } 
 }

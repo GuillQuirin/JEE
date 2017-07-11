@@ -43,19 +43,16 @@ public class loginServlet extends HttpServlet {
                 ResultSet resultat = bdd.get(query);
                 while (resultat.next()) {
                     //Initialisation Session
+                    user.setEmail(resultat.getString("email"));
+                    
                     HttpSession session = request.getSession(true);
-                    
-                    //user.setEmail(resultat.getString("email"));
-                    
                     session.setAttribute("user", user);
-                    System.out.println(resultat.getString("pseudo"));
                 }
             } 
             catch (SQLException ex) {
                 Logger.getLogger(loginServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-
         //Redirection Index
         response.sendRedirect(request.getContextPath() + "/index.jsp");
     }

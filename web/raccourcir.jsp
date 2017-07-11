@@ -18,7 +18,7 @@
                     <div class="col-md-6 col-md-offset-2">
                         <div class="row">
                             <p class="col-md-3">URL à raccourcir</p>
-                            <input class="col-md-6 col-md-offset-2" type="text" name="url" required> 
+                            <input class="col-md-6 col-md-offset-2" type="text" name="url" required value="<crt:out value="${param.url}"/>"> 
                         </div>
                         <div class="row">
                             <input class="col-md-1" id="captcha_cb" type="checkbox" name="is_captcha"> 
@@ -36,20 +36,20 @@
                         <div class="row">
                             <label>
                                 <input type="radio" name="is_limit" value="fork">Valable du 
-                                <input type="text" name="date_start" class=""> au 
-                                <input type="text" name="date_end" class="">
+                                <input type="text" name="date_start" class="" value="<crt:out value="${param.date_start}"/>"> au 
+                                <input type="text" name="date_end" class="" value="<crt:out value="${param.date_end}"/>">
                             </label>
                         </div>
                         <div class="row">
                             <label>
                                 <input type="radio" name="is_limit" value="max">Maximum 
-                                <input type="number" name="maximum" class=""> clics
+                                <input type="number" name="maximum" class="" value="<crt:out value="${param.maximum}"/>"> clics
                             </label>
                         </div>
                         <div class="row">
                             <label>
                                 <input type="radio" name="is_limit" value="expiration">Valable jusqu'au 
-                                <input type="text" name="date_exp" class="">
+                                <input type="text" name="date_exp" class="" value="<crt:out value="${param.date_exp}"/>">
                             </label>
                         </div>
                     </div>
@@ -57,6 +57,18 @@
                         <input type="submit" value="Raccourcir">
                     </div>
                 </form>
+                <crt:choose>
+                    <crt:when test="${not empty link}">
+                        <div id="result" class="row">
+                            <p class="resultUrl col-md-8 col-md-offset-2">
+                                URL finale : 
+                                <a href="<crt:out value="${link.getUrl_final()}"/>">
+                                    <crt:out value="${link.getUrl_final()}"/>
+                                </a>
+                            </p>
+                        </div>
+                    </crt:when>
+                </crt:choose>
             </crt:otherwise>
         </crt:choose>
     </div>

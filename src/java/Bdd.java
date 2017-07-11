@@ -1,11 +1,8 @@
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -37,7 +34,6 @@ public class Bdd {
         //SELECT
         try{
             ResultSet result = this.statement.executeQuery(query);
-            System.out.println(result);
             return result;
         }
         catch(SQLException e){

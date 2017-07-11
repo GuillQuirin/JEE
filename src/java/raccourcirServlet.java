@@ -4,6 +4,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -48,23 +49,70 @@ public class raccourcirServlet extends HttpServlet {
     throws ServletException, IOException {
         Url url = new Url();
             url.setUrl_origin(request.getParameter(CHAMP_URL));
+            url.setUrl_final();
             
-            if(request.getParameter(CHAMP_CAPTCHA) != null)
+        if(url.getUrl_origin() != null){
+
+            Bdd bdd = new Bdd();
+            String strInsert = "INSERT INTO url (url_origin) VALUES ('"+url.getUrl_origin()+"');";
+            bdd.edit(strInsert);
+
+            String update = "UPDATE url SET url_final = '"+url.getUrl_final()+"'";
+
+            //Captcha
+            if(request.getParameter(CHAMP_CAPTCHA) != null){
                 url.setCaptcha();
-            
-            if(request.getParameter(CHAMP_IS_PASS) != null)
-                url.setPwd(CHAMP_PWD);
-            
+                if(!url.getCaptcha().isEmpty())
+                    update+=" ,captcha='"+url.getCaptcha()+"'";
+            }
+
+            //Mot de passe
+            if(request.getParameter(CHAMP_IS_PASS) != null){
+                url.setPwd(request.getParameter(CHAMP_PWD));
+                if(!url.getPwd().isEmpty())
+                    update+=" ,pwd='"+url.getPwd()+"'";
+            }
+
+            //Dates fourchette
             if(request.getParameter(CHAMP_LIMIT) != null){
                 if(request.getParameter(CHAMP_LIMIT).equals("fork")){
                     url.setDate_start(request.getParameter(CHAMP_LIM_DD));
                     url.setDate_end(request.getParameter(CHAMP_LIM_DF));
+                    if(!url.getStart().isEmpty() && !url.getEnd().isEmpty())
+                        update+=" ,date_start='"+url.getStart()+"', date_end='"+url.getEnd()+"'";
                 }
                 else if(request.getParameter(CHAMP_LIMIT).equals("max")){
                     url.setMaximum(Integer.parseInt(request.getParameter(CHAMP_LIM_MAX)));
+                    if(url.getMaximum() != 0)
+                        update+=" ,maximum="+url.getMaximum();
                 }
-                else if(request.getParameter(CHAMP_LIMIT).equals("expiration"))
+                else if(request.getParameter(CHAMP_LIMIT).equals("expiration")){
                     url.setExpiration(request.getParameter(CHAMP_LIM_EXP));
+                    if(!url.getExpiration().isEmpty())
+                        update+=" ,expiration='"+url.getExpiration()+"'";
+                }
             }
+
+            update+=" WHERE url_origin='"+url.getUrl_origin()+"'";
+            bdd.edit(update);
+            
+            
+            //Liaison de l'URL à l'utilisateur
+            HttpSession session = request.getSession(false);
+            if(session != null){
+                User user = (User) session.getAttribute("user");
+                if(user != null && user.getEmail() != null){
+                    strInsert = "INSERT INTO user_url (email_user, url_origin) VALUES ('"+user.getEmail()+"','"+url.getUrl_origin()+"');";
+                    System.out.println(strInsert);
+                    bdd.edit(strInsert);
+                }
+                else{
+                    System.out.println("PAS D'INSERTION");
+                }
+            }
+        }
+ 
+        request.setAttribute("link",url);
+        this.getServletContext().getRequestDispatcher( "/raccourcir.jsp" ).forward( request, response );
     }
 }

@@ -27,7 +27,12 @@
     <crt:choose>
         <crt:when test="${not empty link}">
             <div id="result" class="row">
-                <p class="resultUrl col-md-8 col-md-offset-2">URL finale : <crt:out value="${link.getUrl_final()}"/></p>
+                <p class="resultUrl col-md-8 col-md-offset-2">
+                    URL finale : 
+                    <a href="<crt:out value="${link.getUrl_final()}"/>">
+                        <crt:out value="${link.getUrl_final()}"/>
+                    </a>
+                </p>
             </div>
         </crt:when>
     </crt:choose>

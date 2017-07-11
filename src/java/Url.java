@@ -7,20 +7,19 @@ import java.security.SecureRandom;
  */
 public class Url {
     
-    private String url_origin;
-    private String url_final;
-    private String captcha;
-    private String pwd;
-    private String timestamp_expiration;
-    private String nb_max_views;
-    private String date_start;
-    private String date_end;
-    private String date_crea;
-    private Integer maximum;
-    private String expiration;
+    private String url_origin="";
+    private String url_final="";
+    private String captcha="";
+    private String pwd="";
+    private String date_start="";
+    private String date_end="";
+    private Integer maximum=0;
+    private String expiration="";
 
+    /**
+     *
+     */
     public Url() {
-        this.setUrl_final();
     }  
     
     public String getUrl_origin(){return this.url_origin;}    
@@ -37,12 +36,17 @@ public class Url {
      * @param url_origin
      */
     public void setUrl_origin( String url_origin ) {
-        this.url_origin = (url_origin != null) ? url_origin.trim() : "";
+        if(url_origin != null)
+            this.url_origin = url_origin.trim();
         System.out.println("URL_ORIGIN : "+this.url_origin);
     }
 
+    /**
+     *
+     */
     public void setCaptcha() {
         this.captcha = "12345";
+        System.out.println("URL_CAPTCHA : "+this.pwd);
     }
     
     /**
@@ -56,30 +60,42 @@ public class Url {
     
     /**
      *
-     * @param pwd
+     * @param date
      */
-    public void setDate_start( String pwd ) {
-        this.date_start = (pwd != null) ? pwd : "";
+    public void setDate_start( String date ) {
+        if(date != null)
+            this.date_start = date;
         System.out.println("URL_DATE_START : "+this.date_start);
     }
     
     /**
      *
-     * @param pwd
+     * @param date
      */
-    public void setDate_end( String pwd ) {
-        this.date_end = (pwd != null) ? pwd : "";
+    public void setDate_end( String date ) {
+        if(date != null)
+            this.date_end = date;
         System.out.println("URL_DATE_END : "+this.date_end);
     }
 
+    /**
+     *
+     * @param nb
+     */
     public void setMaximum( Integer nb ) {
-        this.maximum = (nb != null) ? nb : 0;
+        if(nb != null)
+            this.maximum = nb;
         System.out.println("URL_MAXIMUM : "+this.maximum);
     }
  
-    public void setExpiration( String nb ) {
-        this.expiration = (nb != null) ? nb : "";
-        System.out.println("URL_DATE_MAX : "+this.expiration);
+    /**
+     *
+     * @param date
+     */
+    public void setExpiration( String date ) {
+        if(date != null)
+            this.expiration = date;
+        System.out.println("URL_DATE_EXPIRATION : "+this.expiration);
     }
 
     /**
@@ -92,6 +108,6 @@ public class Url {
         StringBuilder sb = new StringBuilder( 5 );
         for(int i = 0; i < 5; i++ ) 
             sb.append(AB.charAt(rnd.nextInt(AB.length())));
-        this.url_final = "'"+sb.toString()+"'";
+        this.url_final = "http://localhost:8080/ProjetJee/redirect?url="+sb.toString();
     }
 }
