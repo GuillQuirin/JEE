@@ -63,6 +63,8 @@ public class Bdd {
         }
         catch (SQLException e) {
             System.out.println("Erreur EDIT");
+            System.out.println(query);
+            System.out.println(e.getMessage());
         } 
         return false;
     }

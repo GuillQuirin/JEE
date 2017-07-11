@@ -1,6 +1,5 @@
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.ServletException;
@@ -18,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name="IndexServlet", urlPatterns="/index")
 public class IndexServlet extends HttpServlet {
     
-    public static final String VUE = "index.jsp";
+    public static final String VUE = "/index.jsp";
     public static final String CHAMP_URL  = "url";
     public static final String CHAMP_IS_PASS   = "pwd_url_cb";
     public static final String CHAMP_PASS   = "pwd";
@@ -66,44 +65,26 @@ public class IndexServlet extends HttpServlet {
         
         //Données
         String url_origin = getValeurChamp(request, CHAMP_URL);
-        String is_pwd = getValeurChamp(request, CHAMP_IS_PASS);
         String pwd = getValeurChamp(request, CHAMP_PASS);
 
         Url url = new Url();
-
-        //Validation des champs
-        try{
-            validationURL(url_origin);
+            url.setUrl_origin(url_origin);
+            url.setPwd(pwd);
+        String url_final = url.getUrl_final();
+        
+        if(url.getUrl_origin() != null){
+            String strInsert = "INSERT INTO url (url_origin, pwd, url_final) "
+                                    + "VALUES ("+url.getUrl_origin()+","+url.getPwd()+","+url.getUrl_final()+");";
+            Bdd bdd = new Bdd();
+            bdd.edit(strInsert);
+            request.setAttribute("link",url);
         }
-        catch(Exception e){
-            erreurs.put(CHAMP_URL, e.getMessage());
+        else{
+             System.out.println("/!\\ URL_ORIGIN vide");
         }
-        //url.setUrl_origin(url_origin);
-
-        resultat = (erreurs.isEmpty()) ? "Succès de l'enregistrement" : "Erreur de l'enregistrement";
-
-        request.setAttribute(ATT_ERREURS, erreurs);
-        request.setAttribute(ATT_RESULTAT, resultat);
-        //request.setAttribute(ATT_URL, url);
-
-        //Générateur d'url aléatoire
-        String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-        SecureRandom rnd = new SecureRandom();
-        StringBuilder sb = new StringBuilder( 5 );
-        for(int i = 0; i < 5; i++ ) 
-        sb.append(AB.charAt(rnd.nextInt(AB.length())));
-        String url_final = (request.getParameter("url_perso").equals("")) ? sb.toString() : request.getParameter("url_perso");
-        
-        String strInsert = "INSERT INTO url (url_origin, pwd) VALUES ('"+url_origin+"', '"+pwd+"');";
-        Bdd bdd = new Bdd();
-        bdd.edit(strInsert);
         
         
-        response.sendRedirect(VUE);
-        //this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
-        // String nextJSP = "/";
-        // RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
-        // dispatcher.forward(request,response);
+        this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
     }
 
     public String getResultat(){
@@ -117,15 +98,5 @@ public class IndexServlet extends HttpServlet {
     private static String getValeurChamp( HttpServletRequest request, String nomChamp ) {
         String valeur = request.getParameter( nomChamp );
         return (valeur == null || valeur.trim().length() == 0) ? null : valeur.trim();
-    }
-        
-    private void validationURL(String url) throws Exception{
-        if(url != null && url.trim().length()< 3)
-            throw new Exception( "L'URL." );
-    }
-    
-    private void validationPWD(String password) throws Exception{
-
-    }
-    
+    }   
 }

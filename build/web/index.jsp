@@ -6,19 +6,6 @@
 
 <%@include file="head.jsp" %>
 <div class="container">
-    <crt:choose>
-        <crt:when test="${envoi}">
-
-            <c:remove var="envoi"/>
-
-            <div id="result">
-                <a href="">URL</a>
-                <p>Statistiques : Ajouter un point d'exclamation '!' ou '~s' à la fin de l'URL - <a href="">12kz0~s</a></p>
-            </div>
-
-        </crt:when>
-    </crt:choose>
-    
     <div id="createURL" class="row">
         <form action="index" method="POST">
             <div class="paramsURL col-md-8 col-md-offset-2">
@@ -29,7 +16,7 @@
                     <input class="col-md-2 col-md-offset-1" type="submit" value="Raccourcir">
                 </div>
                 <div class="row">
-                    <input class="col-md-1" type="checkbox" name="pwd_url" id="pwd_url_cb">
+                    <input class="col-md-1" type="checkbox" name="is_pwd" id="pwd_url_cb">
                     <label class="col-md-4" for="pwd_url_cb">
                         Sécurisée avec mot de passe
                     </label>
@@ -61,26 +48,15 @@
             </div> -->
         </form>
     </div>
+    <crt:choose>
+        <crt:when test="${not empty link}">
 
-    <p>
-        <% 
-        /*String attribut = (String) request.getAttribute("test");
-        out.println( attribut );
+            <div id="result">
+                <p class="resultUrl col-md-8 col-md-offset-2">URL finale : <crt:out value="${link.getUrl_final()}"/></p>
+            </div>
 
-        String parametre = request.getParameter( "auteur" );
-        out.println( parametre );*/
-        %>
-    </p>
-    <p>
-        Récupération du bean :
-        <%  
-        /*Coyote notreBean = (Coyote) request.getAttribute("coyote");
-        out.println( notreBean.getPrenom() );
-        out.println( notreBean.getNom() );
-        */ %>
-    </p>
-    <p>Session : <%= session.getAttribute("sessionUtilisateur") %></p>
-    <p>Lien: <%= request.getAttribute("lien") %></p>
+        </crt:when>
+    </crt:choose>
 </div>
         
 <%@include file="footer.jsp" %>

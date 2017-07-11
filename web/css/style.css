@@ -10,6 +10,7 @@ and open the template in the editor.
 
 body{
     background-color: #009cc4;
+    color: white;
 }
 
 header #logo{
@@ -47,13 +48,17 @@ input{
     color: red;
 }
 
-div#createURL{
-    color: white;
+.paramsURL{
+    margin-top: 10px;
+    background-color: #1c839a;
 }
 
-div#createURL .paramsURL{
-	margin-top: 10px;
-	background-color: #1c839a;
+.resultUrl{
+    margin-top: 10px;
+    background-color: #420ce2;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
 }
 
 div#createURL .paramsURL p{
