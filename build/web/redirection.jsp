@@ -8,12 +8,14 @@
 <c:set var="acces" value="1"></c:set>
 
 <crt:choose>
-    <crt:when test="${not empty maximum}">
-        <div id="" class="row">
-            <p class="resultUrl col-md-8 col-md-offset-2">
-                LIMITE D'ACCES ATTEINTE 
-                <c:set var="acces" value="0"></c:set>
-            </p>
+    <crt:when test="${not empty erreur_maximum}">
+        <div class="container">
+            <div id="" class="row">
+                <p class="resultUrl col-md-8 col-md-offset-2">
+                    LIMITE D'ACCES ATTEINTE 
+                    <c:set var="acces" value="0"></c:set>
+                </p>
+            </div>
         </div>
     </crt:when>
 </crt:choose>

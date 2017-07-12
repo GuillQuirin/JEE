@@ -49,7 +49,7 @@ public class raccourcirServlet extends HttpServlet {
     throws ServletException, IOException {
         Url url = new Url();
             url.setUrl_origin(request.getParameter(CHAMP_URL));
-            url.init_url();
+            String code = url.init_url();
             
         if(url.getUrl_origin() != null){
 
@@ -57,7 +57,7 @@ public class raccourcirServlet extends HttpServlet {
             String strInsert = "INSERT INTO url (url_origin) VALUES ('"+url.getUrl_origin()+"');";
             bdd.edit(strInsert);
 
-            String update = "UPDATE url SET url_final = '"+url.getUrl_final()+"'";
+            String update = "UPDATE url SET url_final = '"+code+"'";
 
             //Captcha
             if(request.getParameter(CHAMP_CAPTCHA) != null){

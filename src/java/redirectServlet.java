@@ -50,13 +50,14 @@ public class redirectServlet extends HttpServlet {
                         }*/
 
                         if(resultat.getString("maximum") != null && resultat.getInt("maximum") <= 0){
-                            request.setAttribute("maximum",resultat.getString("maximum"));
+                            request.setAttribute("erreur_maximum",1);
                             redirection=0;
                         }
                         else if(resultat.getString("maximum") != null && resultat.getInt("maximum") > 0){
                             if(redirection == 1){
-                                //SQL à faire passer en dernier pour s'assurer de la validité de la redirection
-
+                                Integer maximum = resultat.getInt("maximum")-1;
+                                query = "UPDATE url SET maximum = "+maximum+" WHERE url_final = '"+url+"'";
+                                bdd.edit(query);
                             }
                         }
 
@@ -88,6 +89,7 @@ public class redirectServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         String link = request.getParameter("url");
+
         if(link != null){
             Integer redirection = 1;
             Bdd bdd = new Bdd();
@@ -98,6 +100,7 @@ public class redirectServlet extends HttpServlet {
                 ResultSet resultat = bdd.get(query);
                 if (resultat.isBeforeFirst()){
                     while (resultat.next()) {
+                        
                         url.hydrate(resultat);
 
                         /*if(resultat.getString("captcha") != null && request.getAttribute("captcha") != null){
@@ -119,27 +122,40 @@ public class redirectServlet extends HttpServlet {
 
                         /*if(resultat.getString("expiration") != null){
                             request.setAttribute("expiration",resultat.getString("expiration"));
+                        
+                        if(resultat.getString("date_start") != null){
+                            request.setAttribute("expiration",resultat.getString("expiration"));
+                        
+                        if(resultat.getString("date_end") != null){
+                            request.setAttribute("expiration",resultat.getString("expiration"));
                         }*/
 
                         if(url.getMaximum() <= 0){
-                            request.setAttribute("maximum",resultat.getString("maximum"));
+                            request.setAttribute("erreur_maximum",1);
                             redirection=0;
                         }
-                        else if(resultat.getString("maximum") != null && resultat.getInt("maximum") > 0){
+                        else if(url.getMaximum() > 0){
                             if(redirection == 1){
-                                //SQL
+                                Integer maximum = url.getMaximum()-1;
+                                //2eme objet BDD car le premier est en cours d'utilisation dans while()
+                                Bdd bdd_update = new Bdd(); 
+                                query = "UPDATE url SET maximum = "+maximum+" WHERE url_final = '"+link+"'";
+                                bdd_update.edit(query);
                             }
                         }  
                     }
                 }
+                System.out.println(redirection);
+                System.out.println(url.getUrl_origin());               
                 if(redirection == 1)
                     response.sendRedirect(url.getUrl_origin());
                 else
                     this.getServletContext().getRequestDispatcher( "/redirection.jsp" ).forward( request, response );
                 return; //Obligatoire pour ne plus lire la suite du code
             } 
-            catch (SQLException ex) {
-                
+            catch (SQLException e) {
+                System.out.println("ERREUR RECUPERATION");
+                System.out.println(e.getMessage());
             }
         }
         this.getServletContext().getRequestDispatcher( "/redirection.jsp" ).forward( request, response );

@@ -38,11 +38,23 @@ public class Url {
      * @param url_origin
      */
     public void setUrl_origin( String url_origin ) {
+        
         if(url_origin != null)
             this.url_origin = url_origin.trim();
+        
+        if(this.url_origin.lastIndexOf("http://") == -1)
+            this.url_origin = "http://"+this.url_origin;
+        
         System.out.println("URL_ORIGIN : "+this.url_origin);
     }
 
+    /**
+     *
+     */
+    public void setUrl_final(String url) {
+        this.url_final = url;
+    }
+    
     /**
      *
      */
@@ -98,13 +110,6 @@ public class Url {
             this.expiration = date;
         System.out.println("URL_DATE_EXPIRATION : "+this.expiration);
     }
-
-    /**
-     *
-     */
-    public void setUrl_final(String url) {
-        this.url_final = url;
-    }
     
     /**
      *
@@ -122,7 +127,7 @@ public class Url {
     /**
      *
      */
-    public void init_url(){
+    public String init_url(){
         //Générateur d'url aléatoire
         String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
         SecureRandom rnd = new SecureRandom();
@@ -130,6 +135,7 @@ public class Url {
         for(int i = 0; i < 5; i++ ) 
             sb.append(AB.charAt(rnd.nextInt(AB.length())));
         this.url_final = sb.toString();
+        return this.url_final;
     }
 
     public void hydrate(ResultSet resultat) throws SQLException {
