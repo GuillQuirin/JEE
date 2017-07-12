@@ -30,8 +30,8 @@ public class Url {
     public String getPwd(){return this.pwd;}
     public String getStart(){return this.date_start;}
     public String getEnd(){return this.date_end;}
-    public Integer getMaximum(){return this.maximum;}
     public String getExpiration(){return this.expiration;}
+    public Integer getMaximum(){return this.maximum;}
 
     /**
      *
@@ -94,21 +94,21 @@ public class Url {
 
     /**
      *
-     * @param nb
-     */
-    public void setMaximum( Integer nb ) {
-        this.maximum = (nb != null) ? nb : 0;
-        System.out.println("URL_MAXIMUM : "+this.maximum);
-    }
- 
-    /**
-     *
      * @param date
      */
     public void setExpiration( String date ) {
         if(date != null)
             this.expiration = date;
         System.out.println("URL_DATE_EXPIRATION : "+this.expiration);
+    }
+    
+    /**
+     *
+     * @param nb
+     */
+    public void setMaximum( Integer nb ) {
+        this.maximum = (nb != null) ? nb : 0;
+        System.out.println("URL_MAXIMUM : "+this.maximum);
     }
     
     /**

@@ -14,6 +14,15 @@
                     <input class="col-md-6 col-md-offset-1" type="text" name="url" value="<crt:out value="${param.url}"/>" required> 
                     <input class="col-md-2 col-md-offset-1" type="submit" value="Raccourcir">
                 </div>
+                <crt:choose>
+                    <crt:when test="${not empty erreur_url_origin}">
+                        <div class="row">
+                            <p class="col-md-8 col-md-offset-2">
+                                Une URL est obligatoire
+                            </p>
+                        </div>
+                    </crt:when>
+                </crt:choose>
                 <div class="row">
                     <input class="col-md-1" type="checkbox" name="is_pwd" id="pwd_url_cb">
                     <label class="col-md-4" for="pwd_url_cb">

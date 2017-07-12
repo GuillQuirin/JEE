@@ -67,7 +67,7 @@ public class IndexServlet extends HttpServlet {
             request.setAttribute("link",url);
         }
         else{
-            //request.setAttribute("erreur_url_origin","");
+            request.setAttribute("erreur_url_origin",1);
         }
                
         this.getServletContext().getRequestDispatcher( "/index.jsp" ).forward( request, response );
