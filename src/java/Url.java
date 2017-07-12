@@ -2,6 +2,7 @@
 import java.security.SecureRandom;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 
 /**
  *
@@ -16,7 +17,7 @@ public class Url {
     private String date_start="";
     private String date_end="";
     private Integer maximum=0;
-    private String expiration="";
+    private Date expiration;
 
     /**
      *
@@ -30,7 +31,7 @@ public class Url {
     public String getPwd(){return this.pwd;}
     public String getStart(){return this.date_start;}
     public String getEnd(){return this.date_end;}
-    public String getExpiration(){return this.expiration;}
+    public Date getExpiration(){return this.expiration;}
     public Integer getMaximum(){return this.maximum;}
 
     /**
@@ -96,9 +97,8 @@ public class Url {
      *
      * @param date
      */
-    public void setExpiration( String date ) {
-        if(date != null)
-            this.expiration = date;
+    public void setExpiration( Date date ) {
+        this.expiration = date;
         System.out.println("URL_DATE_EXPIRATION : "+this.expiration);
     }
     

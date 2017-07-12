@@ -1,4 +1,9 @@
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -73,7 +78,7 @@ public class raccourcirServlet extends HttpServlet {
                     update+=" ,pwd='"+url.getPwd()+"'";
             }
 
-            //Dates fourchette
+            //Limitations 
             if(request.getParameter(CHAMP_LIMIT) != null){
                 if(request.getParameter(CHAMP_LIMIT).equals("fork")){
                     url.setDate_start(request.getParameter(CHAMP_LIM_DD));
@@ -87,9 +92,16 @@ public class raccourcirServlet extends HttpServlet {
                         update+=" ,maximum="+url.getMaximum();
                 }
                 else if(request.getParameter(CHAMP_LIMIT).equals("expiration")){
-                    url.setExpiration(request.getParameter(CHAMP_LIM_EXP));
-                    if(!url.getExpiration().isEmpty())
-                        update+=" ,expiration='"+url.getExpiration()+"'";
+                    try {
+                        Date date = new SimpleDateFormat("dd/MM/yyyy").parse(request.getParameter(CHAMP_LIM_EXP));
+                        java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+                        url.setExpiration(sqlDate);
+                        if(url.getExpiration() != null)
+                            update+=" ,expiration='"+url.getExpiration()+"'";
+                    } 
+                    catch (ParseException ex) {
+                        System.out.println(ex.getMessage());
+                    }
                 }
             }
 

@@ -36,8 +36,8 @@
                         <div class="row">
                             <label>
                                 <input type="radio" name="is_limit" value="fork">Valable du 
-                                <input type="text" name="date_start" class="" value="<crt:out value="${param.date_start}"/>"> au 
-                                <input type="text" name="date_end" class="" value="<crt:out value="${param.date_end}"/>">
+                                <input type="text" name="date_start" pattern="dd/mm/yyyy" placeholder="dd/mm/yyyy" class="" value="<crt:out value="${param.date_start}"/>"> au 
+                                <input type="text" name="date_end" pattern="dd/mm/yyyy" placeholder="dd/mm/yyyy" class="" value="<crt:out value="${param.date_end}"/>">
                             </label>
                         </div>
                         <div class="row">
@@ -49,7 +49,7 @@
                         <div class="row">
                             <label>
                                 <input type="radio" name="is_limit" value="expiration">Valable jusqu'au 
-                                <input type="text" name="date_exp" class="" value="<crt:out value="${param.date_exp}"/>">
+                                <input type="text" name="date_exp" pattern="\d{2}/\d{2}/\d{4}" placeholder="dd/mm/yyyy" class="" value="<crt:out value="${param.date_exp}"/>">
                             </label>
                         </div>
                     </div>
