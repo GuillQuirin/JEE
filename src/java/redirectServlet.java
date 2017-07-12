@@ -1,6 +1,9 @@
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -39,16 +42,40 @@ public class redirectServlet extends HttpServlet {
                             request.setAttribute("captcha",1);
                             redirection=0;
                         }*/ 
-
+                        
+                        //Mot de passe
                         if(resultat.getString("pwd") != null){
                             request.setAttribute("pwd",1);
                             redirection=0;
                         } 
-
-                        /*if(resultat.getString("expiration") != null){
-                            request.setAttribute("expiration",resultat.getString("expiration"));
-                        }*/
-
+                        
+                        //Date limite
+                        if(resultat.getDate("expiration") != null){
+                            Date date = new Date();
+                            java.sql.Date now = new java.sql.Date(date.getTime());
+ 
+                            if(now.before(resultat.getDate("expiration")))
+                                redirection = 1;
+                            else{
+                                request.setAttribute("erreur_expiration",1);
+                                redirection=0;
+                            }
+                        }
+                        
+                        //Période limite
+                        if(resultat.getDate("date_start") != null && resultat.getDate("date_end") != null){
+                            Date date = new Date();
+                            java.sql.Date now = new java.sql.Date(date.getTime());
+ 
+                            if(resultat.getDate("date_start").before(now) && now.before(resultat.getDate("date_end")))
+                                redirection = 1;
+                            else{
+                                request.setAttribute("erreur_periode",1);
+                                redirection=0;
+                            }
+                        }
+                        
+                        //Limite d'affichage
                         if(resultat.getString("maximum") != null && resultat.getInt("maximum") <= 0){
                             request.setAttribute("erreur_maximum",1);
                             redirection=0;
@@ -60,7 +87,8 @@ public class redirectServlet extends HttpServlet {
                                 bdd.edit(query);
                             }
                         }
-
+                        
+                        //Redirection vers le site-cible
                         if(redirection==1)
                             response.sendRedirect(resultat.getString("url_origin"));
                         else

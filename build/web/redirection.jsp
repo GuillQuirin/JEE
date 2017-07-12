@@ -19,6 +19,32 @@
         </div>
     </crt:when>
 </crt:choose>
+
+<crt:choose>
+    <crt:when test="${not empty erreur_expiration}">
+        <div class="container">
+            <div id="" class="row">
+                <p class="resultUrl col-md-8 col-md-offset-2">
+                    DATE LIMITE ATTEINTE 
+                    <c:set var="acces" value="0"></c:set>
+                </p>
+            </div>
+        </div>
+    </crt:when>
+</crt:choose>
+
+<crt:choose>
+    <crt:when test="${not empty erreur_periode}">
+        <div class="container">
+            <div id="" class="row">
+                <p class="resultUrl col-md-8 col-md-offset-2">
+                    PERIODE D'ACCES ATTEINTE 
+                    <c:set var="acces" value="0"></c:set>
+                </p>
+            </div>
+        </div>
+    </crt:when>
+</crt:choose>
     
 <crt:choose>
     <crt:when test="${acces == 1}">
