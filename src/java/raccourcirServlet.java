@@ -81,10 +81,27 @@ public class raccourcirServlet extends HttpServlet {
             //Limitations 
             if(request.getParameter(CHAMP_LIMIT) != null){
                 if(request.getParameter(CHAMP_LIMIT).equals("fork")){
-                    url.setDate_start(request.getParameter(CHAMP_LIM_DD));
-                    url.setDate_end(request.getParameter(CHAMP_LIM_DF));
-                    if(!url.getStart().isEmpty() && !url.getEnd().isEmpty())
-                        update+=" ,date_start='"+url.getStart()+"', date_end='"+url.getEnd()+"'";
+                    try {
+                        Date date1 = new SimpleDateFormat("dd/MM/yyyy").parse(request.getParameter(CHAMP_LIM_DD));
+                        Date date2 = new SimpleDateFormat("dd/MM/yyyy").parse(request.getParameter(CHAMP_LIM_DF));
+
+                        if(date1.before(date2)){
+                            System.out.println("OK");
+                            java.sql.Date sqlDate1 = new java.sql.Date(date1.getTime());
+                            java.sql.Date sqlDate2 = new java.sql.Date(date2.getTime());
+                        
+                            url.setDate_start(sqlDate1);
+                            url.setDate_end(sqlDate2);
+                            if(url.getStart() != null && url.getEnd() != null)
+                                update+=" ,date_start='"+url.getStart()+"', date_end='"+url.getEnd()+"'";   
+                        }
+                        else{
+                            //Dates incorrects
+                            System.out.println("/ ! \\ DATE 1 APRES DATE 2");
+                        }
+                    } catch (ParseException ex) {
+                        System.out.println(ex.getMessage());
+                    }
                 }
                 else if(request.getParameter(CHAMP_LIMIT).equals("max")){
                     url.setMaximum(Integer.parseInt(request.getParameter(CHAMP_LIM_MAX)));

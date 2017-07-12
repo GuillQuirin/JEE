@@ -14,8 +14,8 @@ public class Url {
     private String url_final="";
     private String captcha="";
     private String pwd="";
-    private String date_start="";
-    private String date_end="";
+    private Date date_start;
+    private Date date_end;
     private Integer maximum=0;
     private Date expiration;
 
@@ -29,8 +29,8 @@ public class Url {
     public String getUrl_final(){return "http://localhost:8080/ProjetJee/redirect?url="+this.url_final;}    
     public String getCaptcha(){return this.captcha;}
     public String getPwd(){return this.pwd;}
-    public String getStart(){return this.date_start;}
-    public String getEnd(){return this.date_end;}
+    public Date getStart(){return this.date_start;}
+    public Date getEnd(){return this.date_end;}
     public Date getExpiration(){return this.expiration;}
     public Integer getMaximum(){return this.maximum;}
 
@@ -77,7 +77,7 @@ public class Url {
      *
      * @param date
      */
-    public void setDate_start( String date ) {
+    public void setDate_start( Date date ) {
         if(date != null)
             this.date_start = date;
         System.out.println("URL_DATE_START : "+this.date_start);
@@ -87,7 +87,7 @@ public class Url {
      *
      * @param date
      */
-    public void setDate_end( String date ) {
+    public void setDate_end( Date date ) {
         if(date != null)
             this.date_end = date;
         System.out.println("URL_DATE_END : "+this.date_end);
@@ -126,6 +126,7 @@ public class Url {
     
     /**
      *
+     * @return 
      */
     public String init_url(){
         //Générateur d'url aléatoire
