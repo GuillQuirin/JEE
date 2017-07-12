@@ -49,7 +49,7 @@ public class raccourcirServlet extends HttpServlet {
     throws ServletException, IOException {
         Url url = new Url();
             url.setUrl_origin(request.getParameter(CHAMP_URL));
-            url.setUrl_final();
+            url.init_url();
             
         if(url.getUrl_origin() != null){
 
@@ -61,7 +61,7 @@ public class raccourcirServlet extends HttpServlet {
 
             //Captcha
             if(request.getParameter(CHAMP_CAPTCHA) != null){
-                url.setCaptcha();
+                url.setCaptcha("123");
                 if(!url.getCaptcha().isEmpty())
                     update+=" ,captcha='"+url.getCaptcha()+"'";
             }

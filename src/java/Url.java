@@ -1,5 +1,7 @@
 
 import java.security.SecureRandom;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  *
@@ -44,7 +46,7 @@ public class Url {
     /**
      *
      */
-    public void setCaptcha() {
+    public void setCaptcha(String captcha) {
         this.captcha = "12345";
         System.out.println("URL_CAPTCHA : "+this.pwd);
     }
@@ -83,8 +85,7 @@ public class Url {
      * @param nb
      */
     public void setMaximum( Integer nb ) {
-        if(nb != null)
-            this.maximum = nb;
+        this.maximum = (nb != null) ? nb : 0;
         System.out.println("URL_MAXIMUM : "+this.maximum);
     }
  
@@ -101,7 +102,27 @@ public class Url {
     /**
      *
      */
-    public void setUrl_final() {
+    public void setUrl_final(String url) {
+        this.url_final = url;
+    }
+    
+    /**
+     *
+     */
+    public void init_captcha(){
+        //Générateur d'url aléatoire
+        /*String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+        SecureRandom rnd = new SecureRandom();
+        StringBuilder sb = new StringBuilder( 5 );
+        for(int i = 0; i < 5; i++ ) 
+            sb.append(AB.charAt(rnd.nextInt(AB.length())));
+        this.url_final = sb.toString();*/
+    }
+    
+    /**
+     *
+     */
+    public void init_url(){
         //Générateur d'url aléatoire
         String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
         SecureRandom rnd = new SecureRandom();
@@ -109,5 +130,34 @@ public class Url {
         for(int i = 0; i < 5; i++ ) 
             sb.append(AB.charAt(rnd.nextInt(AB.length())));
         this.url_final = sb.toString();
+    }
+
+    public void hydrate(ResultSet resultat) throws SQLException {
+        try{
+            if(resultat.getString("url_origin") != null)
+                this.setUrl_origin(resultat.getString("url_origin"));
+
+            if(resultat.getString("url_final") != null)
+                this.setUrl_final(resultat.getString("url_final"));
+
+            if(resultat.getString("pwd") != null)
+                this.setPwd(resultat.getString("pwd"));
+
+            /*if(resultat.getString("date_start") != null)
+                this.setDate_start(resultat.getString("date_start"));
+
+            if(resultat.getString("date_end") != null)
+                this.setDate_end(resultat.getString("date_end"));
+            
+            if(resultat.getString("expiration") != null)
+                this.setExpiration(resultat.getString("expiration"));
+            */
+            if(resultat.getString("maximum") != null)
+                this.setMaximum(resultat.getInt("maximum"));
+        }
+        catch(SQLException e){
+            System.out.println("ERREUR HYDRATATION");
+            System.out.println(e.getMessage());
+        }
     }
 }

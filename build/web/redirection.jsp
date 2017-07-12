@@ -21,7 +21,7 @@
 <crt:choose>
     <crt:when test="${acces == 1}">
         <div class="container">
-            <form action="redirect" method="POST">
+            <form action="redirect?url=<crt:out value="${param.url}"/>" method="POST">
                 <input type="hidden" name="url" value="<crt:out value="${param.url}"/>">
                 <crt:choose>
                     <crt:when test="${not empty captcha}">
@@ -42,16 +42,25 @@
                         <div id="" class="row">
                             <div class="resultUrl col-md-8 col-md-offset-2">
                                 <p>
-                                    MOT DE PASSE : 
+                                    MOT DE PASSE REQUIS : 
                                 </p>
                                 <p>
                                     <input type="password" name="pwd">
                                 </p>
+                                <crt:choose>
+                                    <crt:when test="${not empty erreur_pwd}">
+                                        <p>Le mot de passe est erroné</p>
+                                    </crt:when>
+                                </crt:choose>
                             </div>
                         </div>
                     </crt:when>
                 </crt:choose>
-                <input type="submit">
+                <div id="" class="row">
+                    <div class="resultUrl col-md-8 col-md-offset-2">
+                        <input type="submit">
+                    </div>
+                </div>
             </form>
         </div>
     </crt:when>

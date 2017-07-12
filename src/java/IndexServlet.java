@@ -50,7 +50,7 @@ public class IndexServlet extends HttpServlet {
         //Données
          Url url = new Url();
             url.setUrl_origin(request.getParameter(CHAMP_URL));
-            url.setUrl_final();
+            url.init_url();
             url.setPwd(request.getParameter(CHAMP_PASS));
         
         if(url.getUrl_origin() != null){
