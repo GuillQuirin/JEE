@@ -9,8 +9,7 @@ and open the template in the editor.
 */
 
 body{
-    background-color: #009cc4;
-    color: white;
+    background-color: white;
 }
 
 header #logo{
@@ -26,12 +25,23 @@ header #publi{
     display: inline-block;
 }
 
-header button, header input{
+header button{
     height: 75px;
     background-color: transparent;
-    color: white;
-    font-size: 20px;
+    color: black;
+    text-transform: uppercase;
+    font-size: 15px;
     margin: 10px 0;
+    width: 100%;
+}
+
+header input{
+    height: 75px;
+    background-color: transparent;
+    color: black;
+    text-transform: uppercase;
+    font-size: 15px;
+    margin: 10px 10px;
     width: 100%;
 }
 
@@ -45,33 +55,45 @@ input{
 }
 
 .erreur{
-    color: red;
+    border: 5px solid red;
+    padding: 15px;
+    text-align: center;
+    font-weight: bold;
 }
 
-.paramsURL{
+.paramsURL {
     margin-top: 10px;
-    background-color: #1c839a;
+    margin-bottom: 10px;
+    border: 5px solid #4bd1ef;
+    padding: 20px 5px;
+}
+
+.paramsURL .row{
+    margin: 0;
 }
 
 .resultUrl{
     margin-top: 10px;
-    background-color: #420ce2;
-    /*height: 50px;*/
+    border: 5px solid #1fb925;
     line-height: 50px;
     text-align: center;
+}
+
+div#createURL form input[type="submit"]{
+    position: absolute;
+    height: 50%;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
 }
 
 div#createURL .paramsURL p{
     display: inline-block;
 }
 
-#advanced{
-    
-}
-
 footer{
     width: 50%;
-    margin: 0 auto;
+    margin: 20px auto;
     text-align: center;
 }
 

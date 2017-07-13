@@ -25,7 +25,7 @@
                             <tr>
                                 <td><a href="<crt:out value = "${link.getUrl_origin()}"/>"><crt:out value = "${link.getUrl_origin()}"/></a></td>
                                 <td><a href="<crt:out value = "${link.getUrl_final()}"/>"><crt:out value = "${link.getUrl_final()}"/></a></td>
-                                <td><fmt:formatDate type = "both" dateStyle = "short" value = "${link.getDate_crea()}" /></td>
+                                <td><fmt:formatDate type = "date" dateStyle = "short" value = "${link.getDate_crea()}" /></td>
                                 <td>Stats</td>
                             </tr>
                         </crt:forEach>

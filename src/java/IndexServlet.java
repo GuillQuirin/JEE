@@ -50,17 +50,20 @@ public class IndexServlet extends HttpServlet {
         //Données
          Url url = new Url();
             url.setUrl_origin(request.getParameter(CHAMP_URL));
-            String code = url.init_url();
+            String code_url_final = url.init_url();
             url.setPwd(request.getParameter(CHAMP_PASS));
-        
-        if(url.getUrl_origin() != null){
+
+        if(request.getParameter(CHAMP_URL) != null && !request.getParameter(CHAMP_URL).trim().equals("")){
             Bdd bdd = new Bdd();
-            String strInsert = "INSERT INTO url (url_origin) VALUES ('"+url.getUrl_origin()+"');";
+            String strInsert = "INSERT INTO url (url_origin) "
+                                    + "VALUES ('"+url.getUrl_origin()+"');";
             bdd.edit(strInsert);
             
-            String update = "UPDATE url SET url_final = '"+code+"'";
-                if(url.getPwd() != null)
-                    update+=" ,pwd='"+url.getPwd()+"'";
+            String update = "UPDATE url SET url_final = '"+code_url_final+"'";
+            
+            if(url.getPwd() != null && !request.getParameter(CHAMP_PASS).equals(""))
+                update+=" ,pwd='"+url.getPwd()+"'";
+            
             update+=" WHERE url_origin='"+url.getUrl_origin()+"'";
             bdd.edit(update);
             
