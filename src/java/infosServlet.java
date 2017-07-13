@@ -27,12 +27,7 @@ public class infosServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         PrintWriter out = response.getWriter();
-        try{
-            response.sendRedirect(request.getContextPath() + VUE);            
-        }
-        catch (IOException e) {
-            out.println(e);
-        }
+        //response.sendRedirect(request.getContextPath() + VUE);
     } 
 
     /** 

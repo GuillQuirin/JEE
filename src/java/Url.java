@@ -18,6 +18,7 @@ public class Url {
     private Date date_end;
     private Integer maximum=0;
     private Date expiration;
+    private Date date_crea;
 
     /**
      *
@@ -33,6 +34,7 @@ public class Url {
     public Date getEnd(){return this.date_end;}
     public Date getExpiration(){return this.expiration;}
     public Integer getMaximum(){return this.maximum;}
+    public Date getDate_crea(){return this.date_crea;}
 
     /**
      *
@@ -113,6 +115,15 @@ public class Url {
     
     /**
      *
+     * @param date
+     */
+    public void setDate_crea( Date date ) {
+        this.date_crea = date;
+        System.out.println("URL_DATE_CREA : "+this.date_crea);
+    }
+    
+    /**
+     *
      */
     public void init_captcha(){
         //Générateur d'url aléatoire
@@ -150,17 +161,20 @@ public class Url {
             if(resultat.getString("pwd") != null)
                 this.setPwd(resultat.getString("pwd"));
 
-            if(resultat.getString("date_start") != null)
+            if(resultat.getDate("date_start") != null)
                 this.setDate_start(resultat.getDate("date_start"));
 
-            if(resultat.getString("date_end") != null)
+            if(resultat.getDate("date_end") != null)
                 this.setDate_end(resultat.getDate("date_end"));
             
-            if(resultat.getString("expiration") != null)
+            if(resultat.getDate("expiration") != null)
                 this.setExpiration(resultat.getDate("expiration"));
             
             if(resultat.getString("maximum") != null)
                 this.setMaximum(resultat.getInt("maximum"));
+            
+            if(resultat.getDate("date_crea") != null)
+                this.setDate_crea(resultat.getDate("date_crea"));
         }
         catch(SQLException e){
             System.out.println("ERREUR HYDRATATION");

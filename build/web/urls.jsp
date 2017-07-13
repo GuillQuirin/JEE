@@ -13,25 +13,24 @@
                 <c:redirect url="/creation.jsp"/>
             </crt:when>
             <crt:otherwise>
-                <crt:choose>
-                    <crt:when test="${sessionScope.user == null}">
-                        <div>Vous n'avez aucune URL enregistrée.</div>
-                    </crt:when>
-                    <crt:otherwise>
-                        <table id="listUrl">
-                            <thead>
-                                Nom
-                            </thead>
-                            <tbody>
-                                <c:forTokens items = "Zara,nuha,roshy" delims = "," var = "name">
-                                    <tr>
-                                        <td><crt:out value = "${name}"/></td>
-                                    </tr>
-                                </c:forTokens>
-                            </tbody>
-                        </table>
-                    </crt:otherwise>
-                </crt:choose>
+                <table id="listUrl">
+                    <thead>
+                        <th>URL originale</th>
+                        <th>URL générée</th>
+                        <th>Date de création</th>
+                        <th>Statistiques</th>
+                    </thead>
+                    <tbody>
+                        <crt:forEach items = "${listUrl}" var = "link">
+                            <tr>
+                                <td><a href="<crt:out value = "${link.getUrl_origin()}"/>"><crt:out value = "${link.getUrl_origin()}"/></a></td>
+                                <td><a href="<crt:out value = "${link.getUrl_final()}"/>"><crt:out value = "${link.getUrl_final()}"/></a></td>
+                                <td><fmt:formatDate type = "both" dateStyle = "short" value = "${link.getDate_crea()}" /></td>
+                                <td>Stats</td>
+                            </tr>
+                        </crt:forEach>
+                    </tbody>
+                </table>
             </crt:otherwise>
         </crt:choose>
     </div>

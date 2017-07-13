@@ -17,7 +17,7 @@
                 <a href="<c:url value='/infos.jsp'/>" class="col-md-offset-3 col-md-3">
                     <button>Informations personnelles</button>
                 </a>
-                <a href="<c:url value='/urls.jsp'/>" class="col-md-offset-1 col-md-2">
+                <a href="<c:url value='/MyUrl'/>" class="col-md-offset-1 col-md-2">
                     <button>Mes URLs</button>
                 </a>
             </div>

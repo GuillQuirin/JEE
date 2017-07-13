@@ -79,3 +79,7 @@ footer{
     display: flex;
     justify-content: space-between;
 }
+
+table{
+    color:black;
+}
