@@ -49,23 +49,40 @@ public class infosServlet extends HttpServlet {
         User user = (User) session.getAttribute("user");
         
         if(user != null){
-            if(request.getParameter("pseudo") != null)
+            Integer modifs = 0;
+            
+            if(request.getParameter("pseudo") != null){
                 user.setPseudo(request.getParameter("pseudo"));
-
-            if(request.getParameter("email") != null)
+                modifs = 1;
+            }
+            
+            if(request.getParameter("email") != null){
                 user.setEmail(request.getParameter("email"));
-
-            //if(request.getParameter("pseudo") != null)
-            //    user.setPseudo(request.getParameter("pseudo"));
-
+                modifs = 1;
+            }
+            
+            if(request.getParameter("pwd") != null && request.getParameter("confirm_pwd") != null){
+                if(request.getParameter("pwd").equals(request.getParameter("confirm_pwd"))){
+                    user.setPwd(request.getParameter("pwd"));
+                    modifs = 1;
+                }
+                else{
+                    request.setAttribute("erreur_pwd",1);   
+                    modifs = 0;
+                }
+            }
+  
             try{
+                
                 Bdd bdd = new Bdd();
                 String query = "UPDATE user SET pseudo='"+user.getPseudo()+"', "
                         +                       "email='"+user.getEmail()+"', "
                         +                       "pwd='"+user.getPwd()+"' "
                         +                   "WHERE id="+user.getId();
                 bdd.edit(query);
-                request.setAttribute("modifications",1);
+    
+                if(modifs == 1)
+                    request.setAttribute("modifications",1);
             }
             catch(Exception e){
                 System.out.println(e.getMessage());
@@ -76,6 +93,4 @@ public class infosServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/index.jsp"); 
         }
     }
-
-
 }
