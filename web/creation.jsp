@@ -19,7 +19,7 @@
                         </div>
                         <div class="row">
                             <p class="col-md-3">Email</p>
-                            <input class="col-md-6 col-md-offset-2" type="text" name="reg_email_user"> 
+                            <input class="col-md-6 col-md-offset-2" type="email" name="reg_email_user"> 
                         </div>
                         <div class="row">
                             <p class="col-md-3">Mot de passe</p>

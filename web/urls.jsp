@@ -4,36 +4,37 @@
     Author     : guillaumequirin
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="head.jsp" %>
 
 <div class="container">
     <div id="createURL" class="row">
         <crt:choose>
             <crt:when test="${sessionScope.user == null}">
-                <form action="register" method="POST">
-                    <div class="col-md-6 col-md-offset-2">
-                        <div class="row">
-                            <p class="col-md-3">Pseudo</p>
-                            <input class="col-md-6 col-md-offset-2" type="text" name="reg_login_user"> 
-                        </div>
-                        <div class="row">
-                            <p class="col-md-3">Email</p>
-                            <input class="col-md-6 col-md-offset-2" type="text" name="reg_email_user"> 
-                        </div>
-                        <div class="row">
-                            <p class="col-md-3">Mot de passe</p>
-                            <input class="col-md-6 col-md-offset-2" type="password" name="reg_pwd_user"> 
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <input type="submit" value="CrÃ©er un compte">
-                    </div>
-                </form>
+                <c:redirect url="/creation.jsp"/>
             </crt:when>
             <crt:otherwise>
-                <c:redirect url="/presentation.jsp"/>
+                <crt:choose>
+                    <crt:when test="${sessionScope.user == null}">
+                        <div>Vous n'avez aucune URL enregistrée.</div>
+                    </crt:when>
+                    <crt:otherwise>
+                        <table id="listUrl">
+                            <thead>
+                                Nom
+                            </thead>
+                            <tbody>
+                                <c:forTokens items = "Zara,nuha,roshy" delims = "," var = "name">
+                                    <tr>
+                                        <td><crt:out value = "${name}"/></td>
+                                    </tr>
+                                </c:forTokens>
+                            </tbody>
+                        </table>
+                    </crt:otherwise>
+                </crt:choose>
             </crt:otherwise>
         </crt:choose>
     </div>
 </div>
+
+<%@include file="footer.jsp" %>

@@ -62,7 +62,11 @@ public class User {
         this.pwd = (pwd.isEmpty()) ? null : pwd;
     }
     
-        public void hydrate(ResultSet resultat) throws SQLException {
+    public void initPwd( String pwd ){
+        this.pwd = pwd;
+    }
+    
+    public void hydrate(ResultSet resultat) throws SQLException {
         try{
             if(resultat.getInt("id") != 0)
                 this.setId(resultat.getInt("id"));

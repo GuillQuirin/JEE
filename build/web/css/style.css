@@ -74,3 +74,8 @@ footer{
     margin: 0 auto;
     text-align: center;
 }
+
+#infosUser label{
+    display: flex;
+    justify-content: space-between;
+}

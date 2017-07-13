@@ -4,4 +4,8 @@ $(document).ready(function(){
         var others = $(this).parent().find('input').not('[type="checkbox"]').not('[type="radio"]');
         others.toggleClass('hidden');     
     });
+    
+    if($("#listUrl")){
+        $('#listUrl').DataTable();
+    }
 });
