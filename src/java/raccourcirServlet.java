@@ -130,8 +130,8 @@ public class raccourcirServlet extends HttpServlet {
             HttpSession session = request.getSession(false);
             if(session != null){
                 User user = (User) session.getAttribute("user");
-                if(user != null && user.getEmail() != null){
-                    strInsert = "INSERT INTO user_url (email_user, url_origin) VALUES ('"+user.getEmail()+"','"+url.getUrl_origin()+"');";
+                if(user != null && user.getId() != 0){
+                    strInsert = "INSERT INTO user_url (id_user, url_origin) VALUES ("+user.getId()+",'"+url.getUrl_origin()+"');";
                     System.out.println(strInsert);
                     bdd.edit(strInsert);
                 }

@@ -43,14 +43,14 @@ public class loginServlet extends HttpServlet {
                 ResultSet resultat = bdd.get(query);
                 while (resultat.next()) {
                     //Initialisation Session
-                    user.setEmail(resultat.getString("email"));
+                    user.hydrate(resultat);
                     
                     HttpSession session = request.getSession(true);
                     session.setAttribute("user", user);
                 }
             } 
             catch (SQLException ex) {
-                Logger.getLogger(loginServlet.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println(ex.getMessage());
             }
         }
         //Redirection Index

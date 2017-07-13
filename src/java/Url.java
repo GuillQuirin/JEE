@@ -150,15 +150,15 @@ public class Url {
             if(resultat.getString("pwd") != null)
                 this.setPwd(resultat.getString("pwd"));
 
-            /*if(resultat.getString("date_start") != null)
-                this.setDate_start(resultat.getString("date_start"));
+            if(resultat.getString("date_start") != null)
+                this.setDate_start(resultat.getDate("date_start"));
 
             if(resultat.getString("date_end") != null)
-                this.setDate_end(resultat.getString("date_end"));
+                this.setDate_end(resultat.getDate("date_end"));
             
             if(resultat.getString("expiration") != null)
-                this.setExpiration(resultat.getString("expiration"));
-            */
+                this.setExpiration(resultat.getDate("expiration"));
+            
             if(resultat.getString("maximum") != null)
                 this.setMaximum(resultat.getInt("maximum"));
         }

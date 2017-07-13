@@ -49,16 +49,28 @@ public class registerServlet extends HttpServlet {
                                     + "VALUES ('"+user.getEmail()+"','"+user.getPwd()+"','"+user.getPseudo()+"')";
                     bdd.edit(query);
                     
-                    //Initialisation Session
-                    HttpSession session = request.getSession(true);
-                    session.setAttribute("user", user);
-                    response.sendRedirect(request.getContextPath() + "/presentation.jsp");
+                    query = "SELECT * FROM user WHERE email = '"+user.getEmail()+"' OR pseudo = '"+user.getPseudo()+"'";
+                    try{
+                        resultat = bdd.get(query);
+                        while(resultat.next()) {
+                            //Initialisation Session
+                            user.hydrate(resultat);
+
+                            //Initialisation Session
+                            HttpSession session = request.getSession(true);
+                            session.setAttribute("user", user);
+                            response.sendRedirect(request.getContextPath() + "/presentation.jsp");
+                        }
+                    }
+                    catch(IOException | SQLException e){
+                        System.out.println(e.getMessage());
+                    }
                 }
                 else
                     System.out.println("EMAIL OU PSEUDO DEJA EXISTANT");
             } 
             catch (SQLException ex) {
-                Logger.getLogger(loginServlet.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println(ex.getMessage());
             }
         }
  
