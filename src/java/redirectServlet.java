@@ -35,75 +35,80 @@ public class redirectServlet extends HttpServlet {
             try {
                 ResultSet resultat = bdd.get(query);
                 Integer redirection = 1;
-                if (resultat.isBeforeFirst()){
-                    while (resultat.next()) {
+                while (resultat.next()) {
+                    Url link = new Url();
+                    link.hydrate(resultat);
+                    
+                    if(resultat.getString("captcha") != null){
+                        request.setAttribute("captcha",1);
+                        redirection=0;
+                    } 
 
-                        if(resultat.getString("captcha") != null){
-                            request.setAttribute("captcha",1);
-                            redirection=0;
-                        } 
-                        
-                        //Mot de passe
-                        if(resultat.getString("pwd") != null){
-                            request.setAttribute("pwd",1);
-                            redirection=0;
-                        } 
-                        
-                        //Date limite
-                        if(resultat.getDate("expiration") != null){
-                            Date date = new Date();
-                            java.sql.Date now = new java.sql.Date(date.getTime());
- 
-                            if(now.before(resultat.getDate("expiration")))
-                                redirection = 1;
-                            else{
-                                request.setAttribute("erreur_expiration",1);
-                                redirection=0;
-                            }
-                        }
-                        
-                        //Période limite
-                        if(resultat.getDate("date_start") != null && resultat.getDate("date_end") != null){
-                            Date date = new Date();
-                            java.sql.Date now = new java.sql.Date(date.getTime());
- 
-                            if(resultat.getDate("date_start").before(now) && now.before(resultat.getDate("date_end")))
-                                redirection = 1;
-                            else{
-                                request.setAttribute("erreur_periode",1);
-                                redirection=0;
-                            }
-                        }
-                        
-                        //Limite d'affichage
-                        if(resultat.getString("maximum") != null && resultat.getInt("maximum") <= 0){
-                            request.setAttribute("erreur_maximum",1);
-                            redirection=0;
-                        }
-                        else if(resultat.getString("maximum") != null && resultat.getInt("maximum") > 0){
-                            if(redirection == 1){
-                                Integer maximum = resultat.getInt("maximum")-1;
-                                query = "UPDATE url SET maximum = "+maximum+" WHERE url_final = '"+url+"'";
-                                bdd.edit(query);
-                            }
-                        }
-                        
-                        //Redirection vers le site-cible
-                        if(redirection==1)
-                            response.sendRedirect(resultat.getString("url_origin"));
-                        else
-                            this.getServletContext().getRequestDispatcher( "/redirection.jsp" ).forward( request, response );
+                    //Mot de passe
+                    if(resultat.getString("pwd") != null){
+                        request.setAttribute("pwd",1);
+                        redirection=0;
+                    } 
 
-                        return;
+                    //Date limite
+                    if(resultat.getDate("expiration") != null){
+                        Date date = new Date();
+                        java.sql.Date now = new java.sql.Date(date.getTime());
+
+                        if(now.before(resultat.getDate("expiration")))
+                            redirection = 1;
+                        else{
+                            request.setAttribute("erreur_expiration",1);
+                            redirection=0;
+                        }
                     }
+
+                    //Période limite
+                    if(resultat.getDate("date_start") != null && resultat.getDate("date_end") != null){
+                        Date date = new Date();
+                        java.sql.Date now = new java.sql.Date(date.getTime());
+
+                        if(resultat.getDate("date_start").before(now) && now.before(resultat.getDate("date_end")))
+                            redirection = 1;
+                        else{
+                            request.setAttribute("erreur_periode",1);
+                            redirection=0;
+                        }
+                    }
+
+                    //Limite d'affichage
+                    /* --------------------
+                    Bdd bdd_update = new Bdd(); 
+                    query = "SELECT * FROM stats (id_url) VALUES("+link.getId()+")";
+                    bdd_update.edit(query);*/
+                    if(resultat.getString("maximum") != null && resultat.getInt("maximum") <= 0){
+                        request.setAttribute("erreur_maximum",1);
+                        redirection=0;
+                    }
+                    else if(resultat.getString("maximum") != null && resultat.getInt("maximum") > 0){
+                        if(redirection == 1){
+                            //
+                        }
+                    }
+
+                    //Redirection vers le site-cible
+                    if(redirection==1){
+                        Bdd bdd_update = new Bdd(); 
+                        query = "INSERT INTO stats (id_url) VALUES("+link.getId()+")";
+                        bdd_update.edit(query);
+                        response.sendRedirect(resultat.getString("url_origin"));
+                    }
+                    else
+                        this.getServletContext().getRequestDispatcher( "/redirection.jsp" ).forward( request, response );
                 }
             } 
             catch (SQLException ex) {
-                
+                System.out.println("ERREUR REDIRECTION");
+                System.out.println(ex.getMessage());
             }
         }
-
-        response.sendRedirect(request.getContextPath() + "/index.jsp");
+        else
+            response.sendRedirect(request.getContextPath() + "/index.jsp");
     } 
 
     /** 
@@ -143,26 +148,30 @@ public class redirectServlet extends HttpServlet {
                                 redirection = 0;
                             }
                         }
-
+                        
+                        
+                        /* --------------------
+                        Bdd bdd_update = new Bdd(); 
+                        query = "SELECT * FROM stats (id_url) VALUES("+link.getId()+")";
+                        bdd_update.edit(query);*/
                         if(url.getMaximum() != null && url.getMaximum() <= 0){
                             request.setAttribute("erreur_maximum",1);
                             redirection=0;
                         }
                         else if(url.getMaximum() != null && url.getMaximum() > 0){
                             if(redirection == 1){
-                                Integer maximum = url.getMaximum()-1;
-                                //2eme objet BDD car le premier est en cours d'utilisation dans while()
-                                Bdd bdd_update = new Bdd(); 
-                                query = "UPDATE url SET maximum = "+maximum+" WHERE url_final = '"+link+"'";
-                                bdd_update.edit(query);
+                                //
                             }
                         }  
                     }
                 }
-                System.out.println(redirection);
-                System.out.println(url.getUrl_origin());               
-                if(redirection == 1)
+              
+                if(redirection == 1){
+                    Bdd bdd_update = new Bdd(); 
+                    query = "INSERT INTO stats (id_url) VALUES("+url.getId()+")";
+                    bdd_update.edit(query);
                     response.sendRedirect(url.getUrl_origin());
+                }
                 else
                     this.getServletContext().getRequestDispatcher( "/redirection.jsp" ).forward( request, response );
                 return; //Obligatoire pour ne plus lire la suite du code

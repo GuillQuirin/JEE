@@ -35,16 +35,21 @@ public class MyUrlServlet extends HttpServlet {
             User user = (User) session.getAttribute("user");
             if(user != null && user.getId() != 0){
                 //Requete SQL
-                String query = "SELECT u.url_origin, u.url_final, u.pwd, u.captcha, u.expiration, u.date_start, u.date_end, u.maximum, u.date_crea "
+                String query = "SELECT u.id, u.url_origin, u.url_final, u.pwd, u.captcha, u.expiration, u.date_start, u.date_end, u.maximum, u.date_crea "
                                     + "FROM user_url usrl, user usr, url u "
                                     + "WHERE usrl.id_user = usr.id "
                                         + "AND usrl.url_origin = u.url_origin "
-                                        + "AND usr.id="+user.getId();
+                                        + "AND usr.id="+user.getId()+" "
+                                    + "GROUP BY u.id";
                 try {
                     ResultSet resultat = bdd.get(query);
                     while (resultat.next()) {
                         Url url = new Url();
                         url.hydrate(resultat);
+                        Bdd bdd1 = new Bdd();
+                        String query1 = "SELECT COUNT(*) as nbDisplay FROM stats WHERE id_url = "+url.getId();
+                        ResultSet resultat1 = bdd1.get(query1);                        
+                        url.setNbDisplay((resultat1.next() ? resultat1.getInt("nbDisplay") : null));
                         listUrl.add(url);
                     }
                     request.setAttribute("listUrl",listUrl);
@@ -56,10 +61,11 @@ public class MyUrlServlet extends HttpServlet {
                     System.out.println(ex.getMessage());
                 }
             }
-            else{
+            else
                 response.sendRedirect(request.getContextPath() + "/index.jsp");
-            }
         }
+        else
+            response.sendRedirect(request.getContextPath() + "/index.jsp");
     } 
 
     /** 

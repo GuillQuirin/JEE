@@ -10,6 +10,7 @@ import java.util.Date;
  */
 public class Url {
     
+    private Integer id;
     private String url_origin="";
     private String url_final="";
     private String captcha="";
@@ -19,6 +20,8 @@ public class Url {
     private Integer maximum=null;
     private Date expiration;
     private Date date_crea;
+    
+    private Integer nbDisplay = 0;
 
     /**
      *
@@ -26,6 +29,7 @@ public class Url {
     public Url() {
     }  
     
+    public Integer getId(){return this.id;}
     public String getUrl_origin(){return this.url_origin;}    
     public String getUrl_final(){return "http://localhost:8080/ProjetJee/redirect?url="+this.url_final;}    
     public String getCaptcha(){return this.captcha;}
@@ -35,7 +39,18 @@ public class Url {
     public Date getExpiration(){return this.expiration;}
     public Integer getMaximum(){return this.maximum;}
     public Date getDate_crea(){return this.date_crea;}
-
+    
+    public Integer getNbDisplay(){return this.nbDisplay;}
+    
+    /**
+     *
+     * @param id
+     */
+    public void setId(Integer id){
+        this.id = id;
+        //System.out.println("URL_ID : "+this.id);
+    }
+    
     /**
      *
      * @param url_origin
@@ -48,7 +63,7 @@ public class Url {
         if(this.url_origin.lastIndexOf("http://") == -1)
             this.url_origin = "http://"+this.url_origin;
         
-        System.out.println("URL_ORIGIN : "+this.url_origin);
+        //System.out.println("URL_ORIGIN : "+this.url_origin);
     }
 
     /**
@@ -65,7 +80,7 @@ public class Url {
      */
     public void setCaptcha(String captcha) {
         this.captcha = captcha;
-        System.out.println("URL_CAPTCHA : "+this.pwd);
+        //System.out.println("URL_CAPTCHA : "+this.pwd);
     }
     
     /**
@@ -74,7 +89,7 @@ public class Url {
      */
     public void setPwd( String pwd ) {
         this.pwd = (pwd != null) ? pwd : "";
-        System.out.println("URL_PWD : "+this.pwd);
+        //System.out.println("URL_PWD : "+this.pwd);
     }
     
     /**
@@ -84,7 +99,7 @@ public class Url {
     public void setDate_start( Date date ) {
         if(date != null)
             this.date_start = date;
-        System.out.println("URL_DATE_START : "+this.date_start);
+        //System.out.println("URL_DATE_START : "+this.date_start);
     }
     
     /**
@@ -94,7 +109,7 @@ public class Url {
     public void setDate_end( Date date ) {
         if(date != null)
             this.date_end = date;
-        System.out.println("URL_DATE_END : "+this.date_end);
+        //System.out.println("URL_DATE_END : "+this.date_end);
     }
 
     /**
@@ -103,7 +118,7 @@ public class Url {
      */
     public void setExpiration( Date date ) {
         this.expiration = date;
-        System.out.println("URL_DATE_EXPIRATION : "+this.expiration);
+        //System.out.println("URL_DATE_EXPIRATION : "+this.expiration);
     }
     
     /**
@@ -112,7 +127,7 @@ public class Url {
      */
     public void setMaximum( Integer nb ) {
         this.maximum = nb;
-        System.out.println("URL_MAXIMUM : "+this.maximum);
+        //System.out.println("URL_MAXIMUM : "+this.maximum);
     }
     
     /**
@@ -121,9 +136,13 @@ public class Url {
      */
     public void setDate_crea( Date date ) {
         this.date_crea = date;
-        System.out.println("URL_DATE_CREA : "+this.date_crea);
+        //System.out.println("URL_DATE_CREA : "+this.date_crea);
     }
-        
+    
+    public void setNbDisplay(Integer nb){
+        this.nbDisplay = nb;
+    }
+    
     /**
      *
      * @return 
@@ -141,6 +160,9 @@ public class Url {
 
     public void hydrate(ResultSet resultat) throws SQLException {
         try{
+            if(resultat.getString("id") != null)
+                this.setId(resultat.getInt("id"));
+            
             if(resultat.getString("url_origin") != null)
                 this.setUrl_origin(resultat.getString("url_origin"));
 
