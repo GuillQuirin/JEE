@@ -26,8 +26,7 @@ public class infosServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        PrintWriter out = response.getWriter();
-        //response.sendRedirect(request.getContextPath() + VUE);
+        response.sendRedirect(request.getContextPath() + VUE);
     } 
 
     /** 
@@ -44,40 +43,41 @@ public class infosServlet extends HttpServlet {
         User user = (User) session.getAttribute("user");
         
         if(user != null){
-            Integer modifs = 0;
+            Integer modifs = 1;
             
-            if(request.getParameter("pseudo") != null){
+            if(request.getParameter("pseudo") == null || request.getParameter("pseudo").trim().equals("")){
+                request.setAttribute("erreur_pseudo",1);
+                modifs = 0;
+            }
+            else
                 user.setPseudo(request.getParameter("pseudo"));
-                modifs = 1;
-            }
             
-            if(request.getParameter("email") != null){
+            if(request.getParameter("email") == null || request.getParameter("email").trim().equals("")){
+                request.setAttribute("erreur_email",1);
+                modifs = 0;
+            }
+            else
                 user.setEmail(request.getParameter("email"));
-                modifs = 1;
-            }
             
-            if(request.getParameter("pwd") != null && request.getParameter("confirm_pwd") != null){
-                if(request.getParameter("pwd").equals(request.getParameter("confirm_pwd"))){
-                    user.setPwd(request.getParameter("pwd"));
-                    modifs = 1;
-                }
-                else{
-                    request.setAttribute("erreur_pwd",1);   
+            if(!request.getParameter("pwd").equals("") && !request.getParameter("confirm_pwd").equals("")){
+                if(!request.getParameter("pwd").equals(request.getParameter("confirm_pwd"))){
+                    request.setAttribute("erreur_pwd",1);
                     modifs = 0;
                 }
+                else
+                    user.setPwd(request.getParameter("pwd"));
             }
   
             try{
-                
-                Bdd bdd = new Bdd();
-                String query = "UPDATE user SET pseudo='"+user.getPseudo()+"', "
-                        +                       "email='"+user.getEmail()+"', "
-                        +                       "pwd='"+user.getPwd()+"' "
-                        +                   "WHERE id="+user.getId();
-                bdd.edit(query);
-    
-                if(modifs == 1)
+                if(modifs == 1){
+                    Bdd bdd = new Bdd();
+                    String query = "UPDATE user SET pseudo='"+user.getPseudo()+"', "
+                            +                       "email='"+user.getEmail()+"', "
+                            +                       "pwd='"+user.getPwd()+"' "
+                            +                   "WHERE id="+user.getId();
+                    bdd.edit(query);
                     request.setAttribute("modifications",1);
+                }
             }
             catch(Exception e){
                 System.out.println(e.getMessage());

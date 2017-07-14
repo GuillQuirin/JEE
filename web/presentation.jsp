@@ -8,14 +8,14 @@
 <%@include file="head.jsp" %>
 
 <div class="container">
-    <div id="createURL" class="row col-md-6 col-md-offset-3">
+    <div id="createURL" class="paramsURL row col-md-6 col-md-offset-3">
         <crt:choose>
             <crt:when test="${sessionScope.user == null}">
                 <c:redirect url="/creation.jsp"/>
             </crt:when>
             <crt:otherwise>
                 <p>Bonjour ${sessionScope.user.getPseudo()},</p> 
-                <p>vous pouvez désormais accéder à toutes nos options de création d’URL raccourcies</p> 
+                <p>Vous pouvez désormais accéder à toutes nos options de création d’URL raccourcies :</p> 
                 <ul>
                     <li>Avec mot de passe
                     <li>Avec mot de passe différents

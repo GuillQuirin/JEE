@@ -8,7 +8,7 @@
 
 
 <div class="container">
-    <div id="raccourcirURL" class="row">
+    <div id="raccourcirURL" class="paramsURL row">
         <crt:choose>
             <crt:when test="${sessionScope.user == null}">
                 <c:redirect url="/index.jsp"/>
