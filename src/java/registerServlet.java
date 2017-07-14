@@ -38,7 +38,24 @@ public class registerServlet extends HttpServlet {
             user.setEmail(request.getParameter(CHAMP_EMAIL));
             user.setPwd(request.getParameter(CHAMP_PASS));
         
-        if(user.getEmail() != null && user.getPwd() != null){
+        Integer erreur = 0;
+        
+        if(request.getParameter(CHAMP_PSEUDO) != null && request.getParameter(CHAMP_PSEUDO).trim().equals("")){
+            request.setAttribute("erreur_pseudo",1);
+            erreur = 1;
+        }
+        
+        if(request.getParameter(CHAMP_EMAIL) != null && request.getParameter(CHAMP_EMAIL).trim().equals("")){
+            request.setAttribute("erreur_email",1);
+            erreur = 1;
+        }
+        
+        if(request.getParameter(CHAMP_PASS) != null && request.getParameter(CHAMP_PASS).trim().equals("")){
+            request.setAttribute("erreur_mdp",1);
+            erreur = 1;
+        }
+        
+        if(erreur == 0){
             Bdd bdd = new Bdd();
             //Requete SQL
             String query = "SELECT * FROM user WHERE email = '"+user.getEmail()+"' OR pseudo = '"+user.getPseudo()+"'";
@@ -60,25 +77,29 @@ public class registerServlet extends HttpServlet {
                             HttpSession session = request.getSession(true);
                             session.setAttribute("user", user);
                             response.sendRedirect(request.getContextPath() + "/presentation.jsp");
+                            return;
                         }
                     }
                     catch(IOException | SQLException e){
                         System.out.println(e.getMessage());
                     }
                 }
-                else
-                    System.out.println("EMAIL OU PSEUDO DEJA EXISTANT");
+                else{
+                    request.setAttribute("erreur_duplication",1);
+                    this.getServletContext().getRequestDispatcher( "/creation.jsp" ).forward( request, response );
+                    return;
+                }
             } 
             catch (SQLException ex) {
                 System.out.println(ex.getMessage());
             }
         }
- 
+        this.getServletContext().getRequestDispatcher( "/creation.jsp" ).forward( request, response );
     }
     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException{        
-     //   response.sendRedirect(request.getContextPath() + "/index.jsp");
+        response.sendRedirect(request.getContextPath() + "/creation.jsp");
     }
 }

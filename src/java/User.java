@@ -47,7 +47,7 @@ public class User {
     }
     
     public void setEmail( String email ){
-        this.email = (email.isEmpty()) ? null : email;
+        this.email = email;
     }
     
     public void setStatus( Integer status ){
@@ -55,11 +55,11 @@ public class User {
     }
     
     public void setPseudo( String pseudo ){
-        this.pseudo = (pseudo.isEmpty()) ? null : pseudo;
+        this.pseudo = pseudo;
     }
     
     public void setPwd( String pwd ){
-        this.pwd = (pwd.isEmpty()) ? null : pwd;
+        this.pwd = pwd;
     }
     
     public void initPwd( String pwd ){
