@@ -38,10 +38,10 @@ public class redirectServlet extends HttpServlet {
                 if (resultat.isBeforeFirst()){
                     while (resultat.next()) {
 
-                        /*if(resultat.getString("captcha") != null){
+                        if(resultat.getString("captcha") != null){
                             request.setAttribute("captcha",1);
                             redirection=0;
-                        }*/ 
+                        } 
                         
                         //Mot de passe
                         if(resultat.getString("pwd") != null){
@@ -131,11 +131,9 @@ public class redirectServlet extends HttpServlet {
                         
                         url.hydrate(resultat);
 
-                        /*if(resultat.getString("captcha") != null && request.getAttribute("captcha") != null){
-                            if()
-                            request.setAttribute("captcha",1);
-                            redirection=0;
-                            //redirection = () ? 0 : 1;
+                        /*if(!resultat.getString("captcha").trim().equals("") && request.getParameter("captcha") != null){
+                            request.setAttribute("erreur_captcha",1);
+                            redirection = 0;
                         }*/
                         
                         if(url.getPwd() != null && request.getParameter("pwd") !=null ){
@@ -144,25 +142,13 @@ public class redirectServlet extends HttpServlet {
                                 request.setAttribute("erreur_pwd",1);
                                 redirection = 0;
                             }
-                            else
-                                redirection = 1;
                         }
 
-                        /*if(resultat.getString("expiration") != null){
-                            request.setAttribute("expiration",resultat.getString("expiration"));
-                        
-                        if(resultat.getString("date_start") != null){
-                            request.setAttribute("expiration",resultat.getString("expiration"));
-                        
-                        if(resultat.getString("date_end") != null){
-                            request.setAttribute("expiration",resultat.getString("expiration"));
-                        }*/
-
-                        if(url.getMaximum() <= 0){
+                        if(url.getMaximum() != null && url.getMaximum() <= 0){
                             request.setAttribute("erreur_maximum",1);
                             redirection=0;
                         }
-                        else if(url.getMaximum() > 0){
+                        else if(url.getMaximum() != null && url.getMaximum() > 0){
                             if(redirection == 1){
                                 Integer maximum = url.getMaximum()-1;
                                 //2eme objet BDD car le premier est en cours d'utilisation dans while()

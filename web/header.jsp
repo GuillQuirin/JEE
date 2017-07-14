@@ -6,7 +6,7 @@
 
 <header class="container">
     <div class="row">
-        <img class="col-md-4" src="public/img/logo.jpg" id="logo">
+        <img class="col-md-4" src="img/logo.jpg" id="logo">
         <div class="col-md-8" id="publi"></div>
     </div>
     <div class="row">

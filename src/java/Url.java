@@ -16,7 +16,7 @@ public class Url {
     private String pwd="";
     private Date date_start;
     private Date date_end;
-    private Integer maximum=0;
+    private Integer maximum=null;
     private Date expiration;
     private Date date_crea;
 
@@ -53,6 +53,7 @@ public class Url {
 
     /**
      *
+     * @param url
      */
     public void setUrl_final(String url) {
         this.url_final = url;
@@ -60,9 +61,10 @@ public class Url {
     
     /**
      *
+     * @param captcha
      */
     public void setCaptcha(String captcha) {
-        this.captcha = "12345";
+        this.captcha = captcha;
         System.out.println("URL_CAPTCHA : "+this.pwd);
     }
     
@@ -109,7 +111,7 @@ public class Url {
      * @param nb
      */
     public void setMaximum( Integer nb ) {
-        this.maximum = (nb != null) ? nb : 0;
+        this.maximum = nb;
         System.out.println("URL_MAXIMUM : "+this.maximum);
     }
     
@@ -121,20 +123,7 @@ public class Url {
         this.date_crea = date;
         System.out.println("URL_DATE_CREA : "+this.date_crea);
     }
-    
-    /**
-     *
-     */
-    public void init_captcha(){
-        //Générateur d'url aléatoire
-        /*String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-        SecureRandom rnd = new SecureRandom();
-        StringBuilder sb = new StringBuilder( 5 );
-        for(int i = 0; i < 5; i++ ) 
-            sb.append(AB.charAt(rnd.nextInt(AB.length())));
-        this.url_final = sb.toString();*/
-    }
-    
+        
     /**
      *
      * @return 
@@ -158,6 +147,9 @@ public class Url {
             if(resultat.getString("url_final") != null)
                 this.setUrl_final(resultat.getString("url_final"));
 
+            if(resultat.getString("captcha") != null)
+                this.setCaptcha(resultat.getString("captcha"));
+            
             if(resultat.getString("pwd") != null)
                 this.setPwd(resultat.getString("pwd"));
 

@@ -35,7 +35,7 @@ public class MyUrlServlet extends HttpServlet {
             User user = (User) session.getAttribute("user");
             if(user != null && user.getId() != 0){
                 //Requete SQL
-                String query = "SELECT u.url_origin, u.url_final, u.pwd, u.expiration, u.date_start, u.date_end, u.maximum, u.date_crea "
+                String query = "SELECT u.url_origin, u.url_final, u.pwd, u.captcha, u.expiration, u.date_start, u.date_end, u.maximum, u.date_crea "
                                     + "FROM user_url usrl, user usr, url u "
                                     + "WHERE usrl.id_user = usr.id "
                                         + "AND usrl.url_origin = u.url_origin "
@@ -72,7 +72,7 @@ public class MyUrlServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-
+        response.sendRedirect(request.getContextPath() + "/index.jsp");
     }
 
 

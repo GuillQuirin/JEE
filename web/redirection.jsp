@@ -61,6 +61,11 @@
                                 <p>
                                     <input type="text" name="captcha">
                                 </p>
+                                <crt:choose>
+                                    <crt:when test="${not empty erreur_captcha}">
+                                        <p>Le captcha est erroné</p>
+                                    </crt:when>
+                                </crt:choose>
                             </div>
                         </div>
                     </crt:when>

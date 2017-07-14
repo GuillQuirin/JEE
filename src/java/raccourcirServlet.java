@@ -66,9 +66,9 @@ public class raccourcirServlet extends HttpServlet {
 
             //Captcha
             if(request.getParameter(CHAMP_CAPTCHA) != null){
-                url.setCaptcha("123");
-                if(!url.getCaptcha().isEmpty())
-                    update+=" ,captcha='"+url.getCaptcha()+"'";
+                url.setCaptcha("1");
+                if(request.getParameter(CHAMP_CAPTCHA) != null)
+                    update+=" ,captcha="+url.getCaptcha();
             }
 
             //Mot de passe
