@@ -77,18 +77,14 @@ public class redirectServlet extends HttpServlet {
                     }
 
                     //Limite d'affichage
-                    /* --------------------
-                    Bdd bdd_update = new Bdd(); 
-                    query = "SELECT * FROM stats (id_url) VALUES("+link.getId()+")";
-                    bdd_update.edit(query);*/
-                    if(resultat.getString("maximum") != null && resultat.getInt("maximum") <= 0){
+                    Bdd bdd1 = new Bdd();
+                    String query1 = "SELECT COUNT(*) as nbDisplay FROM stats WHERE id_url = "+link.getId();
+                    ResultSet resultat1 = bdd1.get(query1);                        
+                    link.setNbDisplay((resultat1.next() ? resultat1.getInt("nbDisplay") : null));
+
+                    if(link.getMaximum()!=null && link.getNbDisplay() >= link.getMaximum()){
                         request.setAttribute("erreur_maximum",1);
                         redirection=0;
-                    }
-                    else if(resultat.getString("maximum") != null && resultat.getInt("maximum") > 0){
-                        if(redirection == 1){
-                            //
-                        }
                     }
 
                     //Redirection vers le site-cible
@@ -150,19 +146,16 @@ public class redirectServlet extends HttpServlet {
                         }
                         
                         
-                        /* --------------------
-                        Bdd bdd_update = new Bdd(); 
-                        query = "SELECT * FROM stats (id_url) VALUES("+link.getId()+")";
-                        bdd_update.edit(query);*/
-                        if(url.getMaximum() != null && url.getMaximum() <= 0){
+                        
+                        Bdd bdd1 = new Bdd();
+                        String query1 = "SELECT COUNT(*) as nbDisplay FROM stats WHERE id_url = "+url.getId();
+                        ResultSet resultat1 = bdd1.get(query1);                        
+                        url.setNbDisplay((resultat1.next() ? resultat1.getInt("nbDisplay") : null));
+                        
+                        if(url.getMaximum()!=null && url.getNbDisplay() >= url.getMaximum()){
                             request.setAttribute("erreur_maximum",1);
                             redirection=0;
                         }
-                        else if(url.getMaximum() != null && url.getMaximum() > 0){
-                            if(redirection == 1){
-                                //
-                            }
-                        }  
                     }
                 }
               
